@@ -6,11 +6,27 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
+
+#include <Commands/Subsystem.h>
+#include <CTRE/Phoenix.h>
 #include <WPILib.h>
 
-class OI {
+class LiftSystem : public frc::Subsystem {
+private:
+	// It's desirable that everything possible under private except
+	// for methods that implement subsystem capabilities
+	TalonSRX *frontRightLift;
+	TalonSRX *frontLeftLift;
+	TalonSRX *backRightLift;
+	TalonSRX *backLeftLift;
+	DigitalInput *upperLimit;
+	DigitalInput *lowerLimit;
+
 public:
-	OI();
-	Joystick* xbox;
-	Joystick* atk3;
+	LiftSystem();
+	void InitDefaultCommand() override;
+	bool GetUpperLimitSwitch();
+	bool GetLowerLimitSwitch();
+	void JoystickLift(double y);
 };
+

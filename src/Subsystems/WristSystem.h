@@ -6,11 +6,16 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-#include <WPILib.h>
 
-class OI {
+#include <Commands/Subsystem.h>
+
+class WristSystem : public frc::Subsystem {
+private:
+	// It's desirable that everything possible under private except
+	// for methods that implement subsystem capabilities
+
 public:
-	OI();
-	Joystick* xbox;
-	Joystick* atk3;
+	WristSystem();
+	void InitDefaultCommand() override;
 };
+

@@ -5,12 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
-#include <WPILib.h>
+#include "RungSystem.h"
+#include "../RobotMap.h"
 
-class OI {
-public:
-	OI();
-	Joystick* xbox;
-	Joystick* atk3;
-};
+RungSystem::RungSystem() : Subsystem("RungSystem") {
+
+}
+
+void RungSystem::InitDefaultCommand() {
+	// Set the default command for a subsystem here.
+	// SetDefaultCommand(new MySpecialCommand());
+}
+
+// Put methods for controlling this subsystem
+// here. Call these from Commands.

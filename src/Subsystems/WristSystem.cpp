@@ -5,16 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "WristSystem.h"
+#include "../RobotMap.h"
 
-#include <Commands/Command.h>
+WristSystem::WristSystem() : Subsystem("WristSystem") {
 
-class MyAutoCommand : public frc::Command {
-public:
-	MyAutoCommand();
-	void Initialize() override;
-	void Execute() override;
-	bool IsFinished() override;
-	void End() override;
-	void Interrupted() override;
-};
+}
+
+void WristSystem::InitDefaultCommand() {
+	// Set the default command for a subsystem here.
+	// SetDefaultCommand(new MySpecialCommand());
+}
+
+// Put methods for controlling this subsystem
+// here. Call these from Commands.

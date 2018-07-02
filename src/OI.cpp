@@ -11,4 +11,13 @@
 
 OI::OI() {
 	// Process operator interface input here.
+	xbox = new Joystick(0);
+	JoystickButton* Button1 = new JoystickButton(xbox, 1);
+	JoystickButton* Button2 = new JoystickButton(xbox, 2);
+	JoystickButton* Button3 = new JoystickButton(xbox, 3);
+	JoystickButton* Button4 = new JoystickButton(xbox, 4);
+	JoystickButton* Button6 = new JoystickButton(xbox, 6);
+	JoystickButton* Button7 = new JoystickButton(xbox, 7);
+
+	atk3 = new Joystick(1);
 }

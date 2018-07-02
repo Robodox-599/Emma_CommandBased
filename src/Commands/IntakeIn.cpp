@@ -5,27 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "ExampleCommand.h"
+#include "IntakeIn.h"
 
-ExampleCommand::ExampleCommand() {
+IntakeIn::IntakeIn() {
 	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(&Robot::chassis);
+	// eg. Requires(Robot::chassis.get());
 }
 
 // Called just before this Command runs the first time
-void ExampleCommand::Initialize() {}
+void IntakeIn::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
-void ExampleCommand::Execute() {}
+void IntakeIn::Execute() {
+
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ExampleCommand::IsFinished() {
+bool IntakeIn::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void ExampleCommand::End() {}
+void IntakeIn::End() {
+
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ExampleCommand::Interrupted() {}
+void IntakeIn::Interrupted() {
+
+}

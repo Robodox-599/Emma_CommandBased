@@ -6,11 +6,23 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
+
+#include <Commands/Subsystem.h>
+#include <CTRE/Phoenix.h>
 #include <WPILib.h>
 
-class OI {
+class DriveSystem : public frc::Subsystem {
+private:
+	// It's desirable that everything possible under private except
+	// for methods that implement subsystem capabilities
+	TalonSRX* frontLeftMotor;
+	TalonSRX* rearLeftMotor;
+	TalonSRX* frontRightMotor;
+	TalonSRX* rearRightMotor;
+
 public:
-	OI();
-	Joystick* xbox;
-	Joystick* atk3;
+	DriveSystem();
+	void InitDefaultCommand() override;
+	void JoystickDrive(double x, double y);
 };
+

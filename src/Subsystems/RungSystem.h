@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "ExampleSubsystem.h"
+#pragma once
 
-#include "../RobotMap.h"
+#include <Commands/Subsystem.h>
 
-ExampleSubsystem::ExampleSubsystem()
-    : frc::Subsystem("ExampleSubsystem") {}
+class RungSystem : public frc::Subsystem {
+private:
+	// It's desirable that everything possible under private except
+	// for methods that implement subsystem capabilities
 
-void ExampleSubsystem::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-}
+public:
+	RungSystem();
+	void InitDefaultCommand() override;
+};
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.

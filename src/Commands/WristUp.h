@@ -6,11 +6,16 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-#include <WPILib.h>
 
-class OI {
+#include <Commands/Command.h>
+
+class WristUp : public frc::Command {
 public:
-	OI();
-	Joystick* xbox;
-	Joystick* atk3;
+	WristUp();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
+	void Interrupted() override;
 };
+

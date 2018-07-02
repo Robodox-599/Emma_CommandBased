@@ -5,27 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include "ClimbLock.h"
 
-MyAutoCommand::MyAutoCommand() {
+ClimbLock::ClimbLock() {
 	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(&Robot::chassis);
+	// eg. Requires(Robot::chassis.get());
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {}
+void ClimbLock::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+void ClimbLock::Execute() {
+
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
+bool ClimbLock::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void ClimbLock::End() {
+
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void ClimbLock::Interrupted() {
+
+}

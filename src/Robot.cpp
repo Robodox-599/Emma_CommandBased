@@ -11,12 +11,19 @@
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SmartDashboard.h>
 
+DriveSystem* Robot::driveSystem = new DriveSystem();
+ClimbSystem* Robot::climbSystem = new ClimbSystem();
+IntakeSystem* Robot::intakeSystem = new IntakeSystem();
+LiftSystem* Robot::liftSystem = new LiftSystem();
+RungSystem* Robot::rungSystem = new RungSystem();
+WristSystem* Robot::wristSystem = new WristSystem();
+OI* Robot::oi = new OI();
+Compressor *comp599 = new Compressor();
 
-#include "Commands/ExampleCommand.h"
-#include "Commands/MyAutoCommand.h"
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	comp599->SetClosedLoopControl(true);
 }
 
 /**
