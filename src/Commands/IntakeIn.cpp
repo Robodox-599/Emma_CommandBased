@@ -6,15 +6,19 @@
 /*----------------------------------------------------------------------------*/
 
 #include "IntakeIn.h"
+#include "../Robot.h"
 
-IntakeIn::IntakeIn() {
+IntakeIn::IntakeIn(float speed) {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::intakeSystem);
+
+	motorSpeed = speed;
 }
 
 // Called just before this Command runs the first time
 void IntakeIn::Initialize() {
-
+	Robot::intakeSystem->IntakeRoll(motorSpeed);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,11 +33,11 @@ bool IntakeIn::IsFinished() {
 
 // Called once after isFinished returns true
 void IntakeIn::End() {
-
+	Robot::intakeSystem->IntakeRoll(0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void IntakeIn::Interrupted() {
-
+	End();
 }

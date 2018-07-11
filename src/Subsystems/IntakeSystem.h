@@ -8,14 +8,19 @@
 #pragma once
 
 #include <Commands/Subsystem.h>
+#include <CTRE/Phoenix.h>
+#include <WPILib.h>
 
 class IntakeSystem : public frc::Subsystem {
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
+	TalonSRX* leftIntakeMotor;
+	TalonSRX* rightIntakeMotor;
 
 public:
 	IntakeSystem();
 	void InitDefaultCommand() override;
+	void IntakeRoll(float speed);
 };
 

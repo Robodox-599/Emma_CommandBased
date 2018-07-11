@@ -9,15 +9,13 @@
 
 #include <Commands/Command.h>
 
-class IntakeIn : public frc::Command {
+class IntakeSlow : public frc::Command {
 public:
-	IntakeIn(float speed);
+	IntakeSlow();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
-private:
-	float motorSpeed;
 };
 

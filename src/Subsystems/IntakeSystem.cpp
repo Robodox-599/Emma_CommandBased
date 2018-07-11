@@ -6,16 +6,27 @@
 /*----------------------------------------------------------------------------*/
 
 #include "IntakeSystem.h"
+#include <CTRE/Phoenix.h>
+#include <WPILib.h>
 #include "../RobotMap.h"
+#include <Commands/IntakeSlow.h>
 
 IntakeSystem::IntakeSystem() : Subsystem("IntakeSystem") {
-
+    leftIntakeMotor = new TalonSRX(5);
+    rightIntakeMotor = new TalonSRX(8);
 }
 
 void IntakeSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new IntakeSlow());
 }
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
+
+void IntakeSystem::IntakeRoll(float speed)
+{
+	leftIntakeMotor->Set(ControlMode::PercentOutput, -speed);
+	rightIntakeMotor->Set(ControlMode::PercentOutput, speed);
+}

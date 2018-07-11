@@ -6,10 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RungDeploy.h"
+#include "../Robot.h"
 
 RungDeploy::RungDeploy() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::rungSystem);
 }
 
 // Called just before this Command runs the first time
