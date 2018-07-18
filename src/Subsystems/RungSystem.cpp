@@ -7,9 +7,12 @@
 
 #include "RungSystem.h"
 #include "../RobotMap.h"
+#include "ctre/Phoenix.h"
+#include "WPILib.h"
 
 RungSystem::RungSystem() : Subsystem("RungSystem") {
-
+	rungPiston = new DoubleSolenoid(6, 7);
+	rungPiston->Set(DoubleSolenoid::kReverse);
 }
 
 void RungSystem::InitDefaultCommand() {
@@ -19,3 +22,17 @@ void RungSystem::InitDefaultCommand() {
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
+void RungSystem::RungDeploy()
+{
+	rungPiston->Set(DoubleSolenoid::kForward);
+}
+
+void RungSystem::RungReset()
+{
+	rungPiston->Set(DoubleSolenoid::kReverse);
+}
+
+void RungSystem::RungNeutral()
+{
+	rungPiston->Set(DoubleSolenoid::kOff);
+}

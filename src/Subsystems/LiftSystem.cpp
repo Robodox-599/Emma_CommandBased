@@ -9,6 +9,7 @@
 #include "../RobotMap.h"
 #include <CTRE/Phoenix.h>
 #include <WPILib.h>
+#include "Commands/LiftByJoystick.h"
 
 LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	frontRightLift = new TalonSRX(9);
@@ -23,6 +24,7 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 void LiftSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new LiftByJoystick());
 }
 
 // Put methods for controlling this subsystem

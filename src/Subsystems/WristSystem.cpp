@@ -7,9 +7,12 @@
 
 #include "WristSystem.h"
 #include "../RobotMap.h"
+#include "WPILib.h"
+#include "ctre/Phoenix.h"
 
 WristSystem::WristSystem() : Subsystem("WristSystem") {
-
+	wristMotor = new TalonSRX(11);
+	pot = new AnalogPotentiometer(3, 200, 0);
 }
 
 void WristSystem::InitDefaultCommand() {
@@ -19,3 +22,7 @@ void WristSystem::InitDefaultCommand() {
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
+double WristSystem::GetPotVal()
+{
+	return pot->Get();
+}

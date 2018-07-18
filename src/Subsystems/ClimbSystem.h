@@ -8,14 +8,21 @@
 #pragma once
 
 #include <Commands/Subsystem.h>
+#include "WPILib.h"
+#include "ctre/Phoenix.h"
 
 class ClimbSystem : public frc::Subsystem {
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
+	DoubleSolenoid* climbPiston;
 
 public:
 	ClimbSystem();
 	void InitDefaultCommand() override;
+	void ClimbLock();
+	void ClimbUnlock();
+	void ClimbNeutral();
+	int ClimbStatus();
 };
 

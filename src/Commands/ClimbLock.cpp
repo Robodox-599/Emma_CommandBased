@@ -6,15 +6,17 @@
 /*----------------------------------------------------------------------------*/
 
 #include "ClimbLock.h"
+#include "../Robot.h"
 
 ClimbLock::ClimbLock() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::climbSystem);
 }
 
 // Called just before this Command runs the first time
 void ClimbLock::Initialize() {
-
+	Robot::climbSystem->ClimbLock();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,11 +31,11 @@ bool ClimbLock::IsFinished() {
 
 // Called once after isFinished returns true
 void ClimbLock::End() {
-
+	Robot::climbSystem->ClimbNeutral();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void ClimbLock::Interrupted() {
-
+	End();
 }

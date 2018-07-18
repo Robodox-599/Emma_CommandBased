@@ -8,14 +8,18 @@
 #pragma once
 
 #include <Commands/Subsystem.h>
+#include "ctre/Phoenix.h"
+#include "WPILib.h"
 
 class WristSystem : public frc::Subsystem {
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-
+	AnalogPotentiometer* pot;
+	TalonSRX* wristMotor;
 public:
 	WristSystem();
 	void InitDefaultCommand() override;
+	double GetPotVal();
 };
 

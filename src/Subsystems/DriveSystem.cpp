@@ -7,6 +7,7 @@
 
 #include "DriveSystem.h"
 #include "../RobotMap.h"
+#include "Commands/DriveByJoystick.h"
 
 DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	frontLeftMotor = new TalonSRX(4);
@@ -23,6 +24,7 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 void DriveSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new DriveByJoystick());
 }
 
 // Put methods for controlling this subsystem
@@ -59,8 +61,8 @@ void DriveSystem::JoystickDrive(double x, double y)
 		x = 0;
 	}
 
-	l = -y+x;
-	r = -y-x;
+	l = y+x;
+	r = y-x;
 
 	frontLeftMotor->Set(ControlMode::PercentOutput, l);
 	rearLeftMotor->Set(ControlMode::PercentOutput, l);

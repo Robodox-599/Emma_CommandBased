@@ -5,35 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "IntakeOut.h"
+#include "ClimbUnlock.h"
+#include "../Robot.h"
 
-IntakeOut::IntakeOut() {
+ClimbUnlock::ClimbUnlock() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::climbSystem);
 }
 
 // Called just before this Command runs the first time
-void IntakeOut::Initialize() {
-
+void ClimbUnlock::Initialize() {
+	Robot::climbSystem->ClimbUnlock();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeOut::Execute() {
+void ClimbUnlock::Execute() {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool IntakeOut::IsFinished() {
+bool ClimbUnlock::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void IntakeOut::End() {
-
+void ClimbUnlock::End() {
+	Robot::climbSystem->ClimbNeutral();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void IntakeOut::Interrupted() {
-
+void ClimbUnlock::Interrupted() {
+	End();
 }

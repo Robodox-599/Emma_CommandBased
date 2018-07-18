@@ -23,7 +23,7 @@ Compressor *comp599 = new Compressor();
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-	comp599->SetClosedLoopControl(false);
+	comp599->SetClosedLoopControl(true);
 }
 
 /**
@@ -59,6 +59,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
+	frc::SmartDashboard::PutNumber("Potentiometer Value", Robot::wristSystem->GetPotVal());
 }
 
 void Robot::TeleopInit() {

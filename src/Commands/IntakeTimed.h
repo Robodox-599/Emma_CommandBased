@@ -7,21 +7,18 @@
 
 #pragma once
 
-#include <Commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-#include "WPILib.h"
+#include <Commands/Command.h>
 
-class RungSystem : public frc::Subsystem {
-private:
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
-	DoubleSolenoid* rungPiston;
-
+class IntakeTimed : public frc::Command {
 public:
-	RungSystem();
-	void InitDefaultCommand() override;
-	void RungDeploy();
-	void RungReset();
-	void RungNeutral();
+	IntakeTimed(float speed, float runtime);
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
+	void Interrupted() override;
+private:
+	float motorSpeed;
+	float seconds;
 };
 

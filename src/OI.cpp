@@ -6,7 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
-#include <Commands/IntakeIn.h>
+#include <Commands/IntakeTeleop.h>
+#include <Commands/ClimbLock.h>
+#include <Commands/RungDeploy.h>
+#include <Commands/RungReset.h>
+#include <Commands/ClimbUnlock.h>
 
 #include <WPILib.h>
 
@@ -27,6 +31,11 @@ OI::OI() {
 	JoystickButton* Button4 = new JoystickButton(atk3, 4);
 	JoystickButton* Button5 = new JoystickButton(atk3, 5);
 	JoystickButton* Button6 = new JoystickButton(atk3, 6);
+	JoystickButton* Button7 = new JoystickButton(atk3, 7);
 
-	Button1->WhileHeld(new IntakeIn(.7));
+	Buttonx1->WhenPressed(new ClimbLock());
+	Buttonx3->WhenPressed(new ClimbUnlock());
+	Button6->WhenPressed(new RungDeploy());
+	Button7->WhenPressed(new RungReset());
+	Button1->WhileHeld(new IntakeTeleop(.7));
 }
