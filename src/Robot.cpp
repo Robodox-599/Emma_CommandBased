@@ -23,7 +23,7 @@ Compressor *comp599 = new Compressor();
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-	comp599->SetClosedLoopControl(true);
+	comp599->SetClosedLoopControl(false);
 }
 
 /**
@@ -69,7 +69,7 @@ void Robot::TeleopInit() {
 	// this line or comment it out.
 	}
 
-void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run();}
 
 void Robot::TestPeriodic() {}
 

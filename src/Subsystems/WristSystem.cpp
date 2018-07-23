@@ -9,15 +9,17 @@
 #include "../RobotMap.h"
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
+#include "Commands/PotentiometerValue.h"
 
 WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wristMotor = new TalonSRX(11);
-	pot = new AnalogPotentiometer(3, 200, 0);
+	pot = new AnalogPotentiometer(3, 200, -38);
 }
 
 void WristSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new PotentiometerValue());
 }
 
 // Put methods for controlling this subsystem

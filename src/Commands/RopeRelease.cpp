@@ -5,41 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "RungDeploy.h"
+#include "RopeRelease.h"
 #include "../Robot.h"
 
-RungDeploy::RungDeploy() {
+RopeRelease::RopeRelease() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(Robot::rungSystem);
-	Requires(Robot::climbSystem);
 }
 
 // Called just before this Command runs the first time
-void RungDeploy::Initialize() {
-	if(Robot::climbSystem->ClimbStatus() == 2 && Robot::rungSystem->RopeStatus() == 1)
-	{
-		Robot::rungSystem->RungDeploy();
-	}
+void RopeRelease::Initialize() {
+	Robot::rungSystem->RopeRelease();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RungDeploy::Execute() {
+void RopeRelease::Execute() {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RungDeploy::IsFinished() {
+bool RopeRelease::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void RungDeploy::End() {
-	Robot::rungSystem->RungNeutral();
+void RopeRelease::End() {
+	Robot::rungSystem->RopeNeutral();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void RungDeploy::Interrupted() {
+void RopeRelease::Interrupted() {
 	End();
 }

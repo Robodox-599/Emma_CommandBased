@@ -5,41 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "RungDeploy.h"
+#include "PotentiometerValue.h"
 #include "../Robot.h"
+#include <SmartDashboard/SmartDashboard.h>
 
-RungDeploy::RungDeploy() {
+
+PotentiometerValue::PotentiometerValue() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(Robot::rungSystem);
-	Requires(Robot::climbSystem);
+	Requires(Robot::wristSystem);
 }
 
 // Called just before this Command runs the first time
-void RungDeploy::Initialize() {
-	if(Robot::climbSystem->ClimbStatus() == 2 && Robot::rungSystem->RopeStatus() == 1)
-	{
-		Robot::rungSystem->RungDeploy();
-	}
+void PotentiometerValue::Initialize() {
+
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RungDeploy::Execute() {
+void PotentiometerValue::Execute() {
+	Robot::wristSystem->GetPotVal();
+	frc::SmartDashboard::PutNumber("PotVal", Robot::wristSystem->GetPotVal());
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RungDeploy::IsFinished() {
+bool PotentiometerValue::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void RungDeploy::End() {
-	Robot::rungSystem->RungNeutral();
+void PotentiometerValue::End() {
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void RungDeploy::Interrupted() {
-	End();
+void PotentiometerValue::Interrupted() {
+
 }
