@@ -5,41 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "PotentiometerValue.h"
+#include "WristHold.h"
 #include "../Robot.h"
-#include <SmartDashboard/SmartDashboard.h>
 
-
-PotentiometerValue::PotentiometerValue() {
+WristHold::WristHold() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(Robot::wristSystem);
 }
 
 // Called just before this Command runs the first time
-void PotentiometerValue::Initialize() {
+void WristHold::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void PotentiometerValue::Execute() {
-	Robot::wristSystem->GetPotVal();
-	frc::SmartDashboard::PutNumber("PotVal", Robot::wristSystem->GetPotVal());
-
+void WristHold::Execute() {
+	Robot::wristSystem->UpdatePotVal();
+	Robot::wristSystem->GetAvgPotVal();
+	//Robot::wristSystem->HoldWristPosition();
+	Robot::wristSystem->TestWristPID(Robot::oi->atk3->GetRawAxis(2));
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PotentiometerValue::IsFinished() {
+bool WristHold::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void PotentiometerValue::End() {
+void WristHold::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PotentiometerValue::Interrupted() {
+void WristHold::Interrupted() {
 
 }

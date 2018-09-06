@@ -10,6 +10,7 @@
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 #include "WPILib.h"
+#include "../RobotMap.h"
 
 class WristSystem : public frc::Subsystem {
 private:
@@ -17,9 +18,16 @@ private:
 	// for methods that implement subsystem capabilities
 	AnalogPotentiometer* pot;
 	TalonSRX* wristMotor;
+	double avgPotVal;
+	double potVals[10];
+	PIDVar wrist;
 public:
 	WristSystem();
 	void InitDefaultCommand() override;
 	double GetPotVal();
+	void UpdatePotVal();
+	void GetAvgPotVal();
+	void HoldWristPosition();
+	void TestWristPID(float target);
 };
 

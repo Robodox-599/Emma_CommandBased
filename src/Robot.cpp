@@ -59,7 +59,6 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
-	frc::SmartDashboard::PutNumber("Potentiometer Value", Robot::wristSystem->GetPotVal());
 }
 
 void Robot::TeleopInit() {
@@ -69,7 +68,9 @@ void Robot::TeleopInit() {
 	// this line or comment it out.
 	}
 
-void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run();}
+void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run();
+frc::SmartDashboard::PutNumber("Average Potentiometer Value", Robot::wristSystem->GetPotVal());
+frc::SmartDashboard::PutNumber("Z axis Value", Robot::oi->atk3->GetRawAxis(2));}
 
 void Robot::TestPeriodic() {}
 

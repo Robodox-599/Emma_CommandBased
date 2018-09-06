@@ -9,9 +9,9 @@
 
 #include <Commands/Command.h>
 
-class PotentiometerValue : public frc::Command {
+class WristHold : public frc::Command {
 public:
-	PotentiometerValue();
+	WristHold();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

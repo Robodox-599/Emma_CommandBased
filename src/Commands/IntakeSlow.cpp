@@ -17,7 +17,7 @@ IntakeSlow::IntakeSlow() {
 
 // Called just before this Command runs the first time
 void IntakeSlow::Initialize() {
-	Robot::intakeSystem->IntakeRoll(0.1);
+	Robot::intakeSystem->IntakeRoll(0.2);
 }
 
 // Called repeatedly when this Command is scheduled to run
