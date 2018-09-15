@@ -24,6 +24,7 @@ Compressor *comp599 = new Compressor();
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 	comp599->SetClosedLoopControl(false);
+
 }
 
 /**

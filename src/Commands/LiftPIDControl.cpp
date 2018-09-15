@@ -5,35 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "WristMiddle.h"
+#include "LiftPIDControl.h"
+#include "../Robot.h"
 
-WristMiddle::WristMiddle() {
+LiftPIDControl::LiftPIDControl() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::liftSystem);
 }
 
 // Called just before this Command runs the first time
-void WristMiddle::Initialize() {
-
+void LiftPIDControl::Initialize() {
+	Robot::liftSystem->ResetEncoder();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void WristMiddle::Execute() {
-
+void LiftPIDControl::Execute() {
+	Robot::liftSystem->JoystickLift(Robot::oi->atk3->GetRawAxis(1));
+	Robot::liftSystem->GetEncoder();
+	//Robot::liftSystem->SetLiftMotors(0.17);
+	if(Robot::oi->atk3->GetRawAxis(1) > 0 && Robot::liftSystem->GetUpperLimitSwitch())
+	{
+		Robot::liftSystem->JoystickLift(0);
+		Robot::liftSystem->maxEncVal = Robot::liftSystem->GetEncoder();
+	}
+	if(Robot::oi->atk3->GetRawAxis(1) < 0 && Robot::liftSystem->GetLowerLimitSwitch())
+	{
+		Robot::liftSystem->JoystickLift(0);
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool WristMiddle::IsFinished() {
+bool LiftPIDControl::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void WristMiddle::End() {
+void LiftPIDControl::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void WristMiddle::Interrupted() {
+void LiftPIDControl::Interrupted() {
 
 }

@@ -9,9 +9,9 @@
 
 #include <Commands/Command.h>
 
-class WristMiddle : public frc::Command {
+class WristPIDControl : public frc::Command {
 public:
-	WristMiddle();
+	WristPIDControl();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

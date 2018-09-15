@@ -9,9 +9,9 @@
 
 #include <Commands/Command.h>
 
-class WristHold : public frc::Command {
+class LiftPIDControl : public frc::Command {
 public:
-	WristHold();
+	LiftPIDControl();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

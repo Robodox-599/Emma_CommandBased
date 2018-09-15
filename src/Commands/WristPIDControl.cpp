@@ -5,35 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "WristUp.h"
+#include <Commands/WristPIDControl.h>
+#include "../Robot.h"
 
-WristUp::WristUp() {
+WristPIDControl::WristPIDControl() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::wristSystem);
 }
 
 // Called just before this Command runs the first time
-void WristUp::Initialize() {
+void WristPIDControl::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void WristUp::Execute() {
-
+void WristPIDControl::Execute() {
+	Robot::wristSystem->UpdatePotVal();
+	Robot::wristSystem->GetAvgPotVal();
+	Robot::wristSystem->HoldWristPosition();
+	//Robot::wristSystem->TestWristPID(Robot::oi->atk3->GetRawAxis(2));
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool WristUp::IsFinished() {
+bool WristPIDControl::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void WristUp::End() {
+void WristPIDControl::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void WristUp::Interrupted() {
+void WristPIDControl::Interrupted() {
 
 }

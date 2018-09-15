@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <Commands/WristPIDControl.h>
 #include "WristSystem.h"
 #include "../RobotMap.h"
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
-#include "Commands/WristHold.h"
 
 WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wristMotor = new TalonSRX(11);
@@ -26,12 +26,13 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 	potVals[8] = 0;
 	potVals[9] = 0;
 	wrist.integrator = 0;
+	wristMotor->ConfigOpenloopRamp(0.25, 0);
 }
 
 void WristSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new WristHold());
+	SetDefaultCommand(new WristPIDControl());
 }
 
 // Put methods for controlling this subsystem
@@ -95,7 +96,7 @@ void WristSystem::TestWristPID(float target)
 	{
 		wrist.motorPower = (wrist.error * nkp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
 	}
-	wristMotor->Set(ControlMode::PercentOutput, (-0.40*cos(angle))+wrist.motorPower);
+	wristMotor->Set(ControlMode::PercentOutput, ((-0.40)*cos(angle))+wrist.motorPower);
 	wrist.prevError = wrist.error;
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);

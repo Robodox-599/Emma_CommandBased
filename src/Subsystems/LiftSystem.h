@@ -10,6 +10,7 @@
 #include <Commands/Subsystem.h>
 #include <CTRE/Phoenix.h>
 #include <WPILib.h>
+#include "../RobotMap.h"
 
 class LiftSystem : public frc::Subsystem {
 private:
@@ -21,12 +22,18 @@ private:
 	TalonSRX *backLeftLift;
 	DigitalInput *upperLimit;
 	DigitalInput *lowerLimit;
-
+	PIDVar lift;
 public:
 	LiftSystem();
 	void InitDefaultCommand() override;
 	bool GetUpperLimitSwitch();
 	bool GetLowerLimitSwitch();
 	void JoystickLift(double y);
+	void LiftPositionPID(double target);
+	void ResetEncoder();
+	double GetEncoder();
+	void SetLiftMotors(double power);
+
+	double maxEncVal;
 };
 
