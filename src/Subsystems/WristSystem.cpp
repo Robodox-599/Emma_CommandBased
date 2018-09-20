@@ -26,6 +26,10 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 	potVals[8] = 0;
 	potVals[9] = 0;
 	wrist.integrator = 0;
+	wrist.kf = -0.40;
+	wrist.kp = 0.025;
+	wrist.ki = 0;
+	wrist.kd = 0.25;
 	wristMotor->ConfigOpenloopRamp(0.25, 0);
 }
 
@@ -79,11 +83,7 @@ void WristSystem::HoldWristPosition()
 
 void WristSystem::TestWristPID(float target)
 {
-
-	wrist.kp = 0.025;
 	double nkp = 0.0125;
-	wrist.kd = 0.25;
-	wrist.ki = 0;
 	double angle = avgPotVal*(3.14/140);
 	double setTarget = -32.5*(target-1);
 	wrist.error = avgPotVal - setTarget;
@@ -96,7 +96,7 @@ void WristSystem::TestWristPID(float target)
 	{
 		wrist.motorPower = (wrist.error * nkp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
 	}
-	wristMotor->Set(ControlMode::PercentOutput, ((-0.40)*cos(angle))+wrist.motorPower);
+	wristMotor->Set(ControlMode::PercentOutput, ((wrist.kf)*cos(angle))+wrist.motorPower);
 	wrist.prevError = wrist.error;
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);

@@ -20,9 +20,15 @@ private:
 	TalonSRX* frontRightMotor;
 	TalonSRX* rearRightMotor;
 
+	DoubleSolenoid* shifter;
+
 public:
 	DriveSystem();
 	void InitDefaultCommand() override;
 	void JoystickDrive(double x, double y);
+	void ShiftUp();
+	void ShiftDown();
+
+	bool shift;
 };
 

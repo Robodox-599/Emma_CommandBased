@@ -26,6 +26,7 @@
 
 struct PIDVar
 {
+	double kf;
 	double kp;
 	double ki;
 	double kd;

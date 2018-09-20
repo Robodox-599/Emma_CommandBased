@@ -5,54 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "LiftPIDControl.h"
+#include <Commands/DriveShift.h>
 #include "../Robot.h"
 
-LiftPIDControl::LiftPIDControl() {
+DriveShift::DriveShift() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(Robot::liftSystem);
+	Requires(Robot::driveSystem);
 }
 
 // Called just before this Command runs the first time
-void LiftPIDControl::Initialize() {
-	Robot::liftSystem->ResetEncoder();
+void DriveShift::Initialize() {
+
 }
 
 // Called repeatedly when this Command is scheduled to run
-void LiftPIDControl::Execute() {
-	//Robot::liftSystem->JoystickLift(Robot::oi->atk3->GetRawAxis(1));
-	Robot::liftSystem->GetEncoder();
-	//Robot::liftSystem->SetLiftMotors(0.17);
-	if(Robot::oi->atk3->GetRawAxis(1) > 0 && Robot::liftSystem->GetUpperLimitSwitch())
+void DriveShift::Execute() {
+	if(Robot::driveSystem->shift)
 	{
-		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftPositionPID(0);
-		Robot::liftSystem->maxEncVal = Robot::liftSystem->GetEncoder();
-	}
-	else if(Robot::oi->atk3->GetRawAxis(1) < 0 && Robot::liftSystem->GetLowerLimitSwitch())
-	{
-		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftPositionPID(0);
+		Robot::driveSystem->ShiftDown();
 	}
 	else
 	{
-		Robot::liftSystem->LiftPositionPID(Robot::oi->atk3->GetRawAxis(1));
+		Robot::driveSystem->ShiftUp();
 	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool LiftPIDControl::IsFinished() {
-	return false;
+bool DriveShift::IsFinished() {
+	if(Robot::driveSystem->shift)
+	{
+		return Robot::driveSystem->shift;
+	}
+	else
+	{
+		return !Robot::driveSystem->shift;
+	}
 }
 
 // Called once after isFinished returns true
-void LiftPIDControl::End() {
+void DriveShift::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void LiftPIDControl::Interrupted() {
-
+void DriveShift::Interrupted() {
+	End();
 }

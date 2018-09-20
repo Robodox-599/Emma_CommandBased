@@ -19,6 +19,10 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	rearLeftMotor->SetInverted(true);
 	frontRightMotor->SetInverted(false);
 	rearRightMotor->SetInverted(false);
+
+	shifter = new DoubleSolenoid(4, 5);
+	shifter->Set(DoubleSolenoid::kForward);
+	shift = false;//false shift = low gear(Shifted Down)
 }
 
 void DriveSystem::InitDefaultCommand() {
@@ -68,4 +72,16 @@ void DriveSystem::JoystickDrive(double x, double y)
 	rearLeftMotor->Set(ControlMode::PercentOutput, l);
 	frontRightMotor->Set(ControlMode::PercentOutput, r);
 	rearRightMotor->Set(ControlMode::PercentOutput, r);
+}
+
+void DriveSystem::ShiftUp()
+{
+	shifter->Set(DoubleSolenoid::kReverse);
+	shift = true;
+}
+
+void DriveSystem::ShiftDown()
+{
+	shifter->Set(DoubleSolenoid::kForward);
+	shift = false;
 }

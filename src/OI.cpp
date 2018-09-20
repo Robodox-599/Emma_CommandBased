@@ -11,7 +11,7 @@
 #include <Commands/RungDeploy.h>
 #include <Commands/RungReset.h>
 #include <Commands/ClimbUnlock.h>
-
+#include <Commands/DriveShift.h>
 #include <WPILib.h>
 
 OI::OI() {
@@ -38,4 +38,5 @@ OI::OI() {
 	Button6->WhenPressed(new RungDeploy());
 	Button7->WhenPressed(new RungReset());
 	Button1->WhileHeld(new IntakeTeleop(.7));
+	Buttonx2->WhenPressed(new DriveShift());
 }

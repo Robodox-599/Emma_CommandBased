@@ -21,12 +21,22 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	upperLimit  = new DigitalInput(0);
 	maxEncVal = 0;
 
+	lift.kf = 0.17;
+	lift.kp = 0.0004;
+	lift.ki = 0;
+	lift.kd = 0;
+	lift.integrator = 0;
+	targetValue = 0;
+
 	backLeftLift->SetInverted(false);
 	frontLeftLift->SetInverted(false);
 	backRightLift->SetInverted(true);
 	frontRightLift->SetInverted(true);
 
 	frontLeftLift->SetSensorPhase(true);
+
+	frontLeftLift->ConfigSelectedFeedbackSensor(QuadEncoder, 0, 0);
+	frontLeftLift->Config_kF(0, 0.17, 10);
 }
 
 void LiftSystem::InitDefaultCommand() {
@@ -76,9 +86,12 @@ void LiftSystem::JoystickLift(double y)
 	frc::SmartDashboard::PutNumber("y axis", y);
 }
 
-void LiftSystem::LiftPositionPID(double target)
+void LiftSystem::LiftTalonPositionPID(double target)
 {
-
+	frontLeftLift->Set(ControlMode::PercentOutput, target);
+	backLeftLift->Set(ControlMode::Follower, 7);
+	frontRightLift->Set(ControlMode::Follower, 7);
+	backRightLift->Set(ControlMode::Follower, 7);
 }
 
 void LiftSystem::ResetEncoder()
@@ -95,6 +108,35 @@ void LiftSystem::SetLiftMotors(double power)
 {
 	frontLeftLift->Set(ControlMode::PercentOutput, power);
 	backLeftLift->Set(ControlMode::PercentOutput, power);
-//	frontRightLift->Set(ControlMode::PercentOutput, power);
-//	backRightLift->Set(ControlMode::PercentOutput, power);
+	frontRightLift->Set(ControlMode::PercentOutput, power);
+	backRightLift->Set(ControlMode::PercentOutput, power);
+}
+
+void LiftSystem::LiftPositionPID(double target)
+{
+	if(target > 0.2)
+	{
+		target = (target-0.2)*1/.8;
+	}
+	else if(target < -0.2)
+	{
+		target = (target+0.2)*1/.8;
+	}
+	else
+	{
+		target = 0;
+	}
+	targetValue += target * 200;
+	lift.error = targetValue - GetEncoder();
+	lift.integrator += lift.error;
+	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
+	SetLiftMotors(lift.motorPower);
+	lift.prevError = lift.error;
+
+	frc::SmartDashboard::PutNumber("Front Left Motor", frontLeftLift->GetMotorOutputPercent());
+	frc::SmartDashboard::PutNumber("Front Right Motor", frontRightLift->GetMotorOutputPercent());
+	frc::SmartDashboard::PutNumber("Rear Left Motor", backLeftLift->GetMotorOutputPercent());
+	frc::SmartDashboard::PutNumber("Rear Right Motor", backRightLift->GetMotorOutputPercent());
+	frc::SmartDashboard::PutNumber("y axis", target);
+
 }

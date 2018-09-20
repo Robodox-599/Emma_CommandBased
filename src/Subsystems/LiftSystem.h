@@ -23,16 +23,18 @@ private:
 	DigitalInput *upperLimit;
 	DigitalInput *lowerLimit;
 	PIDVar lift;
+	double targetValue;
 public:
 	LiftSystem();
 	void InitDefaultCommand() override;
 	bool GetUpperLimitSwitch();
 	bool GetLowerLimitSwitch();
 	void JoystickLift(double y);
-	void LiftPositionPID(double target);
+	void LiftTalonPositionPID(double target);
 	void ResetEncoder();
 	double GetEncoder();
 	void SetLiftMotors(double power);
+	void LiftPositionPID(double target);
 
 	double maxEncVal;
 };
