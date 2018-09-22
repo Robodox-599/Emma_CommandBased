@@ -7,27 +7,15 @@
 
 #pragma once
 
-#include <Commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-#include "WPILib.h"
+#include <Commands/Command.h>
 
-class RungSystem : public frc::Subsystem {
-private:
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
-	DoubleSolenoid* rungPiston;
-	DoubleSolenoid* ropePiston;
-
+class IntakeJoystick : public frc::Command {
 public:
-	RungSystem();
-	void InitDefaultCommand() override;
-	void RungDeploy();
-	void RungReset();
-	void RopeRelease();
-	void RopeReset();
-	int RopeStatus();
-
-	bool ropeState;
-	bool rungState;
+	IntakeJoystick();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
+	void Interrupted() override;
 };
 

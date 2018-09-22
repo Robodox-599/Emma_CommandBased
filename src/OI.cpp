@@ -12,6 +12,10 @@
 #include <Commands/RungReset.h>
 #include <Commands/ClimbUnlock.h>
 #include <Commands/DriveShift.h>
+#include <Commands/RopeRelease.h>
+#include <Commands/RopeReset.h>
+#include <Commands/WristSetPosition.h>
+#include <Commands/IntakeJoystick.h>
 #include <WPILib.h>
 
 OI::OI() {
@@ -32,11 +36,25 @@ OI::OI() {
 	JoystickButton* Button5 = new JoystickButton(atk3, 5);
 	JoystickButton* Button6 = new JoystickButton(atk3, 6);
 	JoystickButton* Button7 = new JoystickButton(atk3, 7);
+	JoystickButton* Button8 = new JoystickButton(atk3, 8);
+	JoystickButton* Button9 = new JoystickButton(atk3, 9);
+	JoystickButton* Button10 = new JoystickButton(atk3, 10);
+	JoystickButton* Button11 = new JoystickButton(atk3, 11);
 
 	Buttonx1->WhenPressed(new ClimbLock());
 	Buttonx3->WhenPressed(new ClimbUnlock());
+
+	Buttonx2->WhenPressed(new DriveShift());
+
+	Button1->WhileHeld(new IntakeJoystick());
+	Button4->WhileHeld(new IntakeTeleop(1));
+
 	Button6->WhenPressed(new RungDeploy());
 	Button7->WhenPressed(new RungReset());
-	Button1->WhileHeld(new IntakeTeleop(.7));
-	Buttonx2->WhenPressed(new DriveShift());
+	Button8->WhenPressed(new RopeRelease());
+	Button9->WhenPressed(new RopeReset());
+
+	Button2->WhenPressed(new WristSetPosition(65));
+	Button11->WhenPressed(new WristSetPosition(32.5));
+	Button10->WhenPressed(new WristSetPosition(-15));
 }

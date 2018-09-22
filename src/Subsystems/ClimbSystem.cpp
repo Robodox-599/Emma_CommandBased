@@ -13,6 +13,7 @@
 ClimbSystem::ClimbSystem() : Subsystem("ClimbSystem") {
 	climbPiston = new DoubleSolenoid(0, 1);
 	climbPiston->Set(DoubleSolenoid::kForward);
+	climbState = false;
 }
 
 void ClimbSystem::InitDefaultCommand() {
@@ -25,19 +26,11 @@ void ClimbSystem::InitDefaultCommand() {
 void ClimbSystem::ClimbLock()
 {
 	climbPiston->Set(DoubleSolenoid::kReverse);
+	climbState = true;
 }
 
 void ClimbSystem::ClimbUnlock()
 {
 	climbPiston->Set(DoubleSolenoid::kForward);
-}
-
-void ClimbSystem::ClimbNeutral()
-{
-	climbPiston->Set(DoubleSolenoid::kOff);
-}
-
-int ClimbSystem::ClimbStatus()
-{
-	return climbPiston->Get();
+	climbState = false;
 }

@@ -23,8 +23,8 @@ void WristPIDControl::Initialize() {
 void WristPIDControl::Execute() {
 	Robot::wristSystem->UpdatePotVal();
 	Robot::wristSystem->GetAvgPotVal();
-	Robot::wristSystem->HoldWristPosition();
-	//Robot::wristSystem->TestWristPID(Robot::oi->atk3->GetRawAxis(2));
+	//Robot::wristSystem->HoldWristPosition();
+	Robot::wristSystem->TestWristPID(Robot::oi->atk3->GetRawAxis(2));
 }
 
 // Make this return true when this Command no longer needs to run execute()

@@ -15,6 +15,9 @@ RungSystem::RungSystem() : Subsystem("RungSystem") {
 	rungPiston->Set(DoubleSolenoid::kReverse);
 	ropePiston = new DoubleSolenoid(2, 3);
 	ropePiston->Set(DoubleSolenoid::kForward);
+
+	ropeState = false;
+	rungState = false;
 }
 
 void RungSystem::InitDefaultCommand() {
@@ -27,34 +30,23 @@ void RungSystem::InitDefaultCommand() {
 void RungSystem::RungDeploy()
 {
 	rungPiston->Set(DoubleSolenoid::kForward);
+	rungState = true;
 }
 
 void RungSystem::RungReset()
 {
 	rungPiston->Set(DoubleSolenoid::kReverse);
-}
-
-void RungSystem::RungNeutral()
-{
-	rungPiston->Set(DoubleSolenoid::kOff);
+	rungState = false;
 }
 
 void RungSystem::RopeRelease()
 {
 	ropePiston->Set(DoubleSolenoid::kReverse);
+	ropeState = true;
 }
 
 void RungSystem::RopeReset()
 {
 	ropePiston->Set(DoubleSolenoid::kForward);
-}
-
-void RungSystem::RopeNeutral()
-{
-	ropePiston->Set(DoubleSolenoid::kOff);
-}
-
-int RungSystem::RopeStatus()
-{
-	return ropePiston->Get();
+	ropeState = false;
 }

@@ -24,5 +24,7 @@ public:
 	void ClimbUnlock();
 	void ClimbNeutral();
 	int ClimbStatus();
+
+	bool climbState;
 };
 

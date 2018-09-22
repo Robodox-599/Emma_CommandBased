@@ -5,41 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "RungDeploy.h"
+#include "IntakeJoystick.h"
 #include "../Robot.h"
 
-RungDeploy::RungDeploy() {
+IntakeJoystick::IntakeJoystick() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(Robot::rungSystem);
-	Requires(Robot::climbSystem);
+	Requires(Robot::intakeSystem);
 }
 
 // Called just before this Command runs the first time
-void RungDeploy::Initialize() {
-	if(Robot::climbSystem->climbState && Robot::rungSystem->ropeState)
-	{
-		Robot::rungSystem->RungDeploy();
-	}
+void IntakeJoystick::Initialize() {
+
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RungDeploy::Execute() {
-
+void IntakeJoystick::Execute() {
+	Robot::intakeSystem->IntakeRoll(.5 * (Robot::oi->atk3->GetRawAxis(2) - 1));
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RungDeploy::IsFinished() {
-	return Robot::rungSystem->rungState;
+bool IntakeJoystick::IsFinished() {
+	return false;
 }
 
 // Called once after isFinished returns true
-void RungDeploy::End() {
+void IntakeJoystick::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void RungDeploy::Interrupted() {
+void IntakeJoystick::Interrupted() {
 	End();
 }

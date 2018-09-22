@@ -26,12 +26,12 @@ void RungReset::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool RungReset::IsFinished() {
-	return false;
+	return !Robot::rungSystem->rungState;
 }
 
 // Called once after isFinished returns true
 void RungReset::End() {
-	Robot::rungSystem->RungNeutral();
+
 }
 
 // Called when another command which requires one or more of the same

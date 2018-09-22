@@ -26,12 +26,12 @@ void ClimbLock::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool ClimbLock::IsFinished() {
-	return false;
+	return Robot::climbSystem->climbState;
 }
 
 // Called once after isFinished returns true
 void ClimbLock::End() {
-	Robot::climbSystem->ClimbNeutral();
+
 }
 
 // Called when another command which requires one or more of the same
