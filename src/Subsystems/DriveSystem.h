@@ -28,6 +28,7 @@ public:
 	void JoystickDrive(double x, double y);
 	void ShiftUp();
 	void ShiftDown();
+	void JoystickVelocityDrive(double x, double y);
 
 	bool shift;
 };
