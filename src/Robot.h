@@ -7,6 +7,7 @@
 #pragma once
 
 #include <Commands/Command.h>
+#include <Commands/DriveDistance.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <TimedRobot.h>
 

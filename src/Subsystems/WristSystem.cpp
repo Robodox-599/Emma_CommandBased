@@ -36,7 +36,7 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 void WristSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new WristPIDControl());
+	//SetDefaultCommand(new WristPIDControl());
 }
 
 // Put methods for controlling this subsystem

@@ -10,6 +10,7 @@
 #include <Commands/Subsystem.h>
 #include <CTRE/Phoenix.h>
 #include <WPILib.h>
+#include "Timer.h"
 
 class DriveSystem : public frc::Subsystem {
 private:
@@ -29,7 +30,20 @@ public:
 	void ShiftUp();
 	void ShiftDown();
 	void JoystickVelocityDrive(double x, double y);
+	void DriveDistance(float feet, float inches);
+	void DriveVelDistance(float feet, float inches, double maxVel, double time);
+	double FeetToTicks(float feet);
+	double InchesToTicks(float inches);
+	double LeftEncoderValue();
+	double RightEncoderValue();
+	bool DistanceError();
+	void GyroTurn(double angle);
 
 	bool shift;
+	float distanceError;
+	bool setTime;
+	double decelerate;
+	Timer* timer;
+	bool isFinished;
 };
 

@@ -22,7 +22,9 @@ Compressor *comp599 = new Compressor();
 
 
 void Robot::RobotInit() {
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+//	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+//	m_chooser.AddDefault("Nothing", nullptr);
+	m_chooser.AddDefault("Drive Distance", new DriveDistance(10, 0, 2250, 0.5));
 	comp599->SetClosedLoopControl(true);
 
 }
@@ -55,7 +57,14 @@ void Robot::DisabledPeriodic() {
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit() {
-
+	m_autoCommand.reset(m_chooser.GetSelected());
+	if (m_autoCommand.get() != nullptr)
+	{
+			m_autoCommand->Start();
+	}
+//	autonomousCommand->Start();
+	// m_autoSelected = SmartDashboard::GetString(
+	// 		"Auto Selector", kAutoNameDefault);
 }
 
 void Robot::AutonomousPeriodic() {
@@ -63,6 +72,12 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+	if (m_autoCommand != nullptr)
+	{
+			m_autoCommand->Cancel();
+	}
+	Robot::wristSystem->TestWristPID(-15);
+//	autonomousCommand->Cancel();
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
