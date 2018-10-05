@@ -21,7 +21,7 @@ void DriveShift::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveShift::Execute() {
-	if(Robot::driveSystem->shift)
+	if(Robot::driveSystem->GetShift())
 	{
 		Robot::driveSystem->ShiftDown();
 	}
@@ -33,13 +33,13 @@ void DriveShift::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveShift::IsFinished() {
-	if(Robot::driveSystem->shift)
+	if(Robot::driveSystem->GetShift())
 	{
-		return Robot::driveSystem->shift;
+		return Robot::driveSystem->GetShift();
 	}
 	else
 	{
-		return !Robot::driveSystem->shift;
+		return !Robot::driveSystem->GetShift();
 	}
 }
 

@@ -11,6 +11,7 @@
 #include <CTRE/Phoenix.h>
 #include <WPILib.h>
 #include "Timer.h"
+#include "../RobotMap.h"
 
 class DriveSystem : public frc::Subsystem {
 private:
@@ -21,8 +22,12 @@ private:
 	TalonSRX* frontRightMotor;
 	TalonSRX* rearRightMotor;
 
-	DoubleSolenoid* shifter;
+	PigeonIMU * pGyon;
+	double ypr[3];
+	PIDVar gyro;
 
+	DoubleSolenoid* shifter;
+	bool shift;
 public:
 	DriveSystem();
 	void InitDefaultCommand() override;
@@ -37,9 +42,9 @@ public:
 	double LeftEncoderValue();
 	double RightEncoderValue();
 	bool DistanceError();
+	bool GetShift();
 	void GyroTurn(double angle);
 
-	bool shift;
 	float distanceError;
 	bool setTime;
 	double decelerate;

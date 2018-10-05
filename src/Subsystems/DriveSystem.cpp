@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "DriveSystem.h"
-#include "../RobotMap.h"
 #include "Commands/DriveByJoystick.h"
 #include "Commands/DriveVelocity.h"
 
@@ -81,6 +80,15 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	distanceError = 400;
 
 	isFinished = false;
+
+	pGyon = new PigeonIMU(frontLeftMotor);
+	pGyon->SetYaw(0, 0);
+
+	gyro.kf = 0;
+	gyro.kp = 0;
+	gyro.ki = 0;
+	gyro.kd = 0;
+	gyro.integrator = 0;
 }
 
 void DriveSystem::InitDefaultCommand() {
@@ -146,6 +154,11 @@ void DriveSystem::ShiftDown()
 {
 	shifter->Set(DoubleSolenoid::kForward);
 	shift = false;
+}
+
+bool DriveSystem::GetShift()
+{
+	return shift;
 }
 
 void DriveSystem::JoystickVelocityDrive(double x, double y)
@@ -288,5 +301,7 @@ bool DriveSystem::DistanceError()
 
 void GyroTurn(double angle)
 {
+	double currentHeading;
+	double target = angle;
 
 }
