@@ -22,9 +22,11 @@ Compressor *comp599 = new Compressor();
 
 
 void Robot::RobotInit() {
-//	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 //	m_chooser.AddDefault("Nothing", nullptr);
-	m_chooser.AddDefault("Drive Distance", new DriveDistance(10, 0, 2250, 0.5));
+	//m_chooser.AddDefault("Drive Distance", new DriveDistance(10, 0, 2250, 0.5));
+	m_chooser.AddDefault("Gyro Turn", new DriveGyroTurn(90));
+	m_chooser.AddObject("Test Auto", new TestAuto1());
 	comp599->SetClosedLoopControl(true);
 
 }

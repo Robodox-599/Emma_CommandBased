@@ -27,17 +27,17 @@ void LiftPIDControl::Execute() {
 	if(Robot::oi->atk3->GetRawAxis(1) > 0 && Robot::liftSystem->GetUpperLimitSwitch())
 	{
 		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftPositionPID(0);
+		Robot::liftSystem->LiftJoystickPID(0);
 		Robot::liftSystem->maxEncVal = Robot::liftSystem->GetEncoder();
 	}
 	else if(Robot::oi->atk3->GetRawAxis(1) < 0 && Robot::liftSystem->GetLowerLimitSwitch())
 	{
 		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftPositionPID(0);
+		Robot::liftSystem->LiftJoystickPID(0);
 	}
 	else
 	{
-		Robot::liftSystem->LiftPositionPID(Robot::oi->atk3->GetRawAxis(1));
+		Robot::liftSystem->LiftJoystickPID(Robot::oi->atk3->GetRawAxis(1));
 	}
 }
 

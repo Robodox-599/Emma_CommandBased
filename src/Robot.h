@@ -8,6 +8,8 @@
 
 #include <Commands/Command.h>
 #include <Commands/DriveDistance.h>
+#include <Commands/DriveGyroTurn.h>
+#include <Commands/TestAuto1.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <TimedRobot.h>
 

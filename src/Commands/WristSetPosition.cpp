@@ -17,7 +17,7 @@ WristSetPosition::WristSetPosition(float target) {
 
 // Called just before this Command runs the first time
 void WristSetPosition::Initialize() {
-
+	Robot::wristSystem->ResetWristFlag();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,12 +29,12 @@ void WristSetPosition::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristSetPosition::IsFinished() {
-	return false;
+	return Robot::wristSystem->WristFlag();
 }
 
 // Called once after isFinished returns true
 void WristSetPosition::End() {
-
+	Robot::wristSystem->TestWristPID(angle);
 }
 
 // Called when another command which requires one or more of the same

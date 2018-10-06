@@ -24,10 +24,12 @@ private:
 
 	PigeonIMU * pGyon;
 	double ypr[3];
-	PIDVar gyro;
 
 	DoubleSolenoid* shifter;
 	bool shift;
+	bool turn;
+	double currentHeading;
+	double gyroTarget;
 public:
 	DriveSystem();
 	void InitDefaultCommand() override;
@@ -41,11 +43,16 @@ public:
 	double InchesToTicks(float inches);
 	double LeftEncoderValue();
 	double RightEncoderValue();
-	bool DistanceError();
+	void GetYaw();
 	bool GetShift();
 	void GyroTurn(double angle);
+	void ResetGyroFlag();
+	bool GetGyroFlag();
+	double SetGyroTarget(double target);
+	double ReturnGyroTarget();
+	void GetGyroValues();
+	void ResetDriveFlag();
 
-	float distanceError;
 	bool setTime;
 	double decelerate;
 	Timer* timer;

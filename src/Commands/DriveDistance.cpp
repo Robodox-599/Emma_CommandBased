@@ -21,6 +21,7 @@ DriveDistance::DriveDistance(float feet, float inches, double maxVel, double tim
 // Called just before this Command runs the first time
 void DriveDistance::Initialize() {
 	Robot::driveSystem->timer->Start();
+	Robot::driveSystem->ResetDriveFlag();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -38,6 +39,7 @@ void DriveDistance::End() {
 	Robot::driveSystem->DriveVelDistance(0, 0, 0, 0);
 	Robot::driveSystem->timer->Stop();
 	Robot::driveSystem->timer->Reset();
+	Robot::driveSystem->ResetDriveFlag();
 }
 
 // Called when another command which requires one or more of the same

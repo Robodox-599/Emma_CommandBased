@@ -31,6 +31,7 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wrist.ki = 0;
 	wrist.kd = 0.25;
 	wristMotor->ConfigOpenloopRamp(0.25, 0);
+	wristSet = false;
 }
 
 void WristSystem::InitDefaultCommand() {
@@ -104,8 +105,19 @@ void WristSystem::TestWristPID(float target)
 	{
 		wristMotor->Set(ControlMode::PercentOutput, ((wrist.kf)*cos(angle))+wrist.motorPower);
 	}
+	if(wrist.error > -1 && wrist.error < 1){wristSet = true;}
 	wrist.prevError = wrist.error;
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);
 	frc::SmartDashboard::PutNumber("Target error", wrist.error);
+}
+
+bool WristSystem::WristFlag()
+{
+	return wristSet;
+}
+
+void WristSystem::ResetWristFlag()
+{
+	wristSet = false;
 }

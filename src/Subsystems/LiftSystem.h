@@ -24,6 +24,7 @@ private:
 	DigitalInput *lowerLimit;
 	PIDVar lift;
 	double targetValue;
+	bool liftSet;
 public:
 	LiftSystem();
 	void InitDefaultCommand() override;
@@ -34,7 +35,12 @@ public:
 	void ResetEncoder();
 	double GetEncoder();
 	void SetLiftMotors(double power);
+	void LiftJoystickPID(double target);
 	void LiftPositionPID(double target);
+	bool GetLiftFlag();
+	void ResetLiftFlag();
+	double GetTargetValue();
+
 
 	double maxEncVal;
 };

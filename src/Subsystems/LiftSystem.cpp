@@ -11,6 +11,8 @@
 #include <WPILib.h>
 #include "Commands/LiftPIDControl.h"
 
+//max lift = -30000
+
 LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	frontRightLift = new TalonSRX(9);
 	frontLeftLift = new TalonSRX(7);
@@ -37,6 +39,8 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 
 	frontLeftLift->ConfigSelectedFeedbackSensor(QuadEncoder, 0, 0);
 	frontLeftLift->Config_kF(0, 0.17, 10);
+
+	liftSet = false;
 }
 
 void LiftSystem::InitDefaultCommand() {
@@ -112,7 +116,7 @@ void LiftSystem::SetLiftMotors(double power)
 	backRightLift->Set(ControlMode::PercentOutput, power);
 }
 
-void LiftSystem::LiftPositionPID(double target)
+void LiftSystem::LiftJoystickPID(double target)
 {
 	if(target > 0.2)
 	{
@@ -138,5 +142,30 @@ void LiftSystem::LiftPositionPID(double target)
 	frc::SmartDashboard::PutNumber("Rear Left Motor", backLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Right Motor", backRightLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("y axis", target);
+}
 
+void LiftSystem::LiftPositionPID(double target)
+{
+	targetValue = target;
+	lift.error = targetValue - GetEncoder();
+	lift.integrator += lift.error;
+	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
+	SetLiftMotors(lift.motorPower);
+	lift.prevError = lift.error;
+	if(lift.error > -1 && lift.error < 1){liftSet = true;}
+}
+
+bool LiftSystem::GetLiftFlag()
+{
+	return liftSet;
+}
+
+void LiftSystem::ResetLiftFlag()
+{
+	liftSet = false;
+}
+
+double LiftSystem::GetTargetValue()
+{
+	return targetValue;
 }

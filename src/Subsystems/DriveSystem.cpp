@@ -77,18 +77,13 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 
 	decelerate = 0;
 
-	distanceError = 400;
-
 	isFinished = false;
 
-	pGyon = new PigeonIMU(frontLeftMotor);
+	pGyon = new PigeonIMU(frontRightMotor);
 	pGyon->SetYaw(0, 0);
-
-	gyro.kf = 0;
-	gyro.kp = 0;
-	gyro.ki = 0;
-	gyro.kd = 0;
-	gyro.integrator = 0;
+	currentHeading = 0;
+	gyroTarget = 0;
+	turn = false;
 }
 
 void DriveSystem::InitDefaultCommand() {
@@ -225,7 +220,6 @@ void DriveSystem::DriveDistance(float feet, float inches)
 	frc::SmartDashboard::PutNumber("closed loop error auton", rearLeftMotor->GetClosedLoopError(0));
 	frc::SmartDashboard::PutNumber("left encoder value", LeftEncoderValue());
 	frc::SmartDashboard::PutNumber("right encoder value", RightEncoderValue());
-	frc::SmartDashboard::PutBoolean("acceptable error", DistanceError());
 }
 
 void DriveSystem::DriveVelDistance(float feet, float inches, double maxVel, double timeOfAcceleration)
@@ -286,22 +280,62 @@ double DriveSystem::RightEncoderValue()
 	return rearRightMotor->GetSelectedSensorPosition(0);
 }
 
-bool DriveSystem::DistanceError()
+void DriveSystem::GetYaw()
 {
-	double position = FeetToTicks(6) + InchesToTicks(0);
-	if(position - rearLeftMotor->GetSelectedSensorPosition(0) < abs(distanceError) && position - rearRightMotor->GetSelectedSensorPosition(0) < abs(distanceError))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	currentHeading = ypr[0];
 }
 
-void GyroTurn(double angle)
+double DriveSystem::SetGyroTarget(double target)
 {
-	double currentHeading;
-	double target = angle;
+	return gyroTarget = currentHeading + target;
+}
 
+double DriveSystem::ReturnGyroTarget()
+{
+	return gyroTarget;
+}
+
+void DriveSystem::ResetGyroFlag()
+{
+	turn = false;
+}
+
+bool DriveSystem::GetGyroFlag()
+{
+	return turn;
+}
+
+void DriveSystem::GyroTurn(double angle)
+{
+	double accAngle = 30;
+	double velocity = 750;
+	double error;
+	double velocityFactor;
+	error = angle - currentHeading;
+	if(error < 0){velocityFactor = (error-3)/accAngle;}
+	if(error > 0){velocityFactor = (error+3)/accAngle;}
+	if(velocityFactor > 1){velocityFactor = 1;}
+	if(velocityFactor < -1){velocityFactor = -1;}
+	if(error == 0){error = 0; turn = true;}
+
+	frontLeftMotor->Set(ControlMode::Follower, 1);
+	rearLeftMotor->Set(ControlMode::Velocity, -velocity*velocityFactor);
+	frontRightMotor->Set(ControlMode::Follower, 3);
+	rearRightMotor->Set(ControlMode::Velocity, velocity*velocityFactor);
+
+	frc::SmartDashboard::PutNumber("error", error);
+	frc::SmartDashboard::PutNumber("Current Heading", currentHeading);
+	frc::SmartDashboard::PutNumber("Velocity", velocityFactor);
+	frc::SmartDashboard::PutNumber("target", angle);
+	frc::SmartDashboard::PutBoolean("Gyro Flag", turn);
+}
+
+void DriveSystem::GetGyroValues()
+{
+	pGyon->GetYawPitchRoll(ypr);
+}
+
+void DriveSystem::ResetDriveFlag()
+{
+	isFinished = false;
 }
