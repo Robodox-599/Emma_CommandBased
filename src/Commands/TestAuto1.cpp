@@ -24,10 +24,12 @@ TestAuto1::TestAuto1() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-	AddSequential(new WristSetPosition(32.5));
-	AddSequential(new DriveGyroTurn(90));
-	AddSequential(new DriveDistance(10, 0, 1500, .5));
-	AddSequential(new DriveGyroTurn(180));
-	AddSequential(new DriveDistance(10, 0, 1500, .5));
-	AddSequential(new LiftPositionControl(15000));
+	AddSequential(new LiftPositionControl(7500));
+//	AddSequential(new DriveDistance(5, 0, 1500, .5));
+//	AddSequential(new DriveGyroTurn(45));
+//	AddSequential(new DriveDistance(8, 0, 1500, .5));
+//	AddSequential(new DriveGyroTurn(45));
+//	AddSequential(new DriveDistance(10, 0, 1500, .5));
+//	AddSequential(new LiftPositionControl(28000));
+//	AddSequential(new IntakeOutput(1));
 }

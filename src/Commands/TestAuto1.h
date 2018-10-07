@@ -12,6 +12,7 @@
 #include <Commands/DriveGyroTurn.h>
 #include <Commands/DriveDistance.h>
 #include <Commands/LiftPositionControl.h>
+#include <Commands/IntakeOutput.h>
 
 class TestAuto1 : public frc::CommandGroup {
 public:

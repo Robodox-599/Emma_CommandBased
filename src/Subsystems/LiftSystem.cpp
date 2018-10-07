@@ -25,7 +25,7 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 
 	lift.kf = 0.17;
 	lift.kp = 0.0004;
-	lift.ki = 0;
+	lift.ki = 0.00001;
 	lift.kd = 0;
 	lift.integrator = 0;
 	targetValue = 0;
@@ -38,9 +38,11 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	frontLeftLift->SetSensorPhase(true);
 
 	frontLeftLift->ConfigSelectedFeedbackSensor(QuadEncoder, 0, 0);
+	frontLeftLift->SetSelectedSensorPosition(0, 0, 0);
 	frontLeftLift->Config_kF(0, 0.17, 10);
 
 	liftSet = false;
+	newTargetValue = 0;
 }
 
 void LiftSystem::InitDefaultCommand() {
@@ -116,43 +118,63 @@ void LiftSystem::SetLiftMotors(double power)
 	backRightLift->Set(ControlMode::PercentOutput, power);
 }
 
-void LiftSystem::LiftJoystickPID(double target)
+void LiftSystem::LiftJoystickPID(double joyValue)
 {
-	if(target > 0.2)
+	if(joyValue > 0.2)
 	{
-		target = (target-0.2)*1/.8;
+		joyValue = (joyValue - 0.2)*1/.8;
 	}
-	else if(target < -0.2)
+	else if(joyValue < -0.2)
 	{
-		target = (target+0.2)*1/.8;
+		joyValue = (joyValue + 0.2)*1/.8;
 	}
 	else
 	{
-		target = 0;
+		joyValue = 0;
 	}
-	targetValue += target * 200;
-	lift.error = targetValue - GetEncoder();
-	lift.integrator += lift.error;
-	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-	SetLiftMotors(lift.motorPower);
-	lift.prevError = lift.error;
+	newTargetValue += joyValue * 200;
+	LiftPositionPID(newTargetValue);
+//	targetValue += target * 200;
+//	lift.error = targetValue - GetEncoder();
+//	lift.integrator += lift.error;
+//	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
+//	SetLiftMotors(lift.motorPower);
+//	lift.prevError = lift.error;
 
 	frc::SmartDashboard::PutNumber("Front Left Motor", frontLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Front Right Motor", frontRightLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Left Motor", backLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Right Motor", backRightLift->GetMotorOutputPercent());
-	frc::SmartDashboard::PutNumber("y axis", target);
+	frc::SmartDashboard::PutNumber("y axis", joyValue);
+	frc::SmartDashboard::PutNumber("new target value", newTargetValue);
 }
 
-void LiftSystem::LiftPositionPID(double target)
+void LiftSystem::LiftPositionPID(double targetTicks)
 {
-	targetValue = target;
+	if(targetTicks > GetEncoder())
+	{
+		targetValue += 2;
+		if (targetValue > targetTicks) { targetValue = targetTicks; }
+	}
+	if(targetTicks < GetEncoder())
+	{
+		targetValue -= 2;
+		if (targetValue < targetTicks) { targetValue = targetTicks; }
+	}
+	if(targetTicks == GetEncoder())
+	{
+		targetValue += 0;
+	}
 	lift.error = targetValue - GetEncoder();
 	lift.integrator += lift.error;
 	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-	SetLiftMotors(lift.motorPower);
+	//SetLiftMotors(lift.motorPower);
 	lift.prevError = lift.error;
-	if(lift.error > -1 && lift.error < 1){liftSet = true;}
+	if(lift.error > -100 && lift.error < 100){liftSet = true;}
+	frc::SmartDashboard::PutNumber("lift encoder value", GetEncoder());
+	frc::SmartDashboard::PutNumber("desired lift value", targetTicks);
+	frc::SmartDashboard::PutNumber("Increasing target value", targetValue);
+	frc::SmartDashboard::PutNumber("motor output", lift.motorPower);
 }
 
 bool LiftSystem::GetLiftFlag()
@@ -169,3 +191,4 @@ double LiftSystem::GetTargetValue()
 {
 	return targetValue;
 }
+

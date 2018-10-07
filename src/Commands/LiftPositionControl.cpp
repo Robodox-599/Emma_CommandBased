@@ -23,23 +23,12 @@ void LiftPositionControl::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void LiftPositionControl::Execute() {
 	Robot::liftSystem->GetEncoder();
-	if(Robot::liftSystem->GetLowerLimitSwitch() && Robot::liftSystem->GetTargetValue() < 0)
-	{
-		Robot::liftSystem->SetLiftMotors(0.17);
-	}
-	else if(Robot::liftSystem->GetUpperLimitSwitch() && Robot::liftSystem->GetTargetValue() > 0)
-	{
-		Robot::liftSystem->SetLiftMotors(0.17);
-	}
-	else
-	{
-		Robot::liftSystem->LiftPositionPID(target);
-	}
+	Robot::liftSystem->LiftPositionPID(target);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool LiftPositionControl::IsFinished() {
-	return Robot::liftSystem->GetLiftFlag();
+	return Robot::liftSystem->GetLiftFlag() || Robot::liftSystem->GetUpperLimitSwitch();
 }
 
 // Called once after isFinished returns true

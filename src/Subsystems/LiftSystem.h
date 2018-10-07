@@ -25,6 +25,7 @@ private:
 	PIDVar lift;
 	double targetValue;
 	bool liftSet;
+	double newTargetValue;
 public:
 	LiftSystem();
 	void InitDefaultCommand() override;
@@ -35,8 +36,8 @@ public:
 	void ResetEncoder();
 	double GetEncoder();
 	void SetLiftMotors(double power);
-	void LiftJoystickPID(double target);
-	void LiftPositionPID(double target);
+	void LiftJoystickPID(double joyValue);
+	void LiftPositionPID(double targetTicks);
 	bool GetLiftFlag();
 	void ResetLiftFlag();
 	double GetTargetValue();
