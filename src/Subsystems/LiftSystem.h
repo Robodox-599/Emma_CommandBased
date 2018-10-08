@@ -25,7 +25,7 @@ private:
 	PIDVar lift;
 	double targetValue;
 	bool liftSet;
-	double newTargetValue;
+	//double newTargetValue;
 public:
 	LiftSystem();
 	void InitDefaultCommand() override;
@@ -40,7 +40,7 @@ public:
 	void LiftPositionPID(double targetTicks);
 	bool GetLiftFlag();
 	void ResetLiftFlag();
-	double GetTargetValue();
+//	double GetTargetValue();
 
 
 	double maxEncVal;

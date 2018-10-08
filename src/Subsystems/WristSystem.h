@@ -22,6 +22,7 @@ private:
 	double potVals[10];
 	PIDVar wrist;
 	bool wristSet;
+	double wristTarget;
 public:
 	WristSystem();
 	void InitDefaultCommand() override;
@@ -29,8 +30,9 @@ public:
 	void UpdatePotVal();
 	void GetAvgPotVal();
 	void HoldWristPosition();
-	void TestWristPID(float target);
+	void TestWristPID();
 	bool WristFlag();
 	void ResetWristFlag();
+	void SetWristTarget(double angle);
 };
 

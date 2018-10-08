@@ -42,7 +42,7 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	frontLeftLift->Config_kF(0, 0.17, 10);
 
 	liftSet = false;
-	newTargetValue = 0;
+	//newTargetValue = 0;
 }
 
 void LiftSystem::InitDefaultCommand() {
@@ -132,48 +132,33 @@ void LiftSystem::LiftJoystickPID(double joyValue)
 	{
 		joyValue = 0;
 	}
-	newTargetValue += joyValue * 200;
-	LiftPositionPID(newTargetValue);
-//	targetValue += target * 200;
-//	lift.error = targetValue - GetEncoder();
-//	lift.integrator += lift.error;
-//	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-//	SetLiftMotors(lift.motorPower);
-//	lift.prevError = lift.error;
+	targetValue += joyValue * 200;
+	lift.error = targetValue - GetEncoder();
+	lift.integrator += lift.error;
+	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
+	SetLiftMotors(lift.motorPower);
+	lift.prevError = lift.error;
 
 	frc::SmartDashboard::PutNumber("Front Left Motor", frontLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Front Right Motor", frontRightLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Left Motor", backLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Right Motor", backRightLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("y axis", joyValue);
-	frc::SmartDashboard::PutNumber("new target value", newTargetValue);
+//	frc::SmartDashboard::PutNumber("new target value", newTargetValue);
 }
 
 void LiftSystem::LiftPositionPID(double targetTicks)
 {
-	if(targetTicks > GetEncoder())
-	{
-		targetValue += 2;
-		if (targetValue > targetTicks) { targetValue = targetTicks; }
-	}
-	if(targetTicks < GetEncoder())
-	{
-		targetValue -= 2;
-		if (targetValue < targetTicks) { targetValue = targetTicks; }
-	}
-	if(targetTicks == GetEncoder())
-	{
-		targetValue += 0;
-	}
-	lift.error = targetValue - GetEncoder();
+	lift.error = targetTicks - GetEncoder();
 	lift.integrator += lift.error;
 	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-	//SetLiftMotors(lift.motorPower);
+	if(lift.motorPower > 0.5){lift.motorPower = 0.25;}
+	SetLiftMotors(lift.motorPower);
 	lift.prevError = lift.error;
 	if(lift.error > -100 && lift.error < 100){liftSet = true;}
 	frc::SmartDashboard::PutNumber("lift encoder value", GetEncoder());
 	frc::SmartDashboard::PutNumber("desired lift value", targetTicks);
-	frc::SmartDashboard::PutNumber("Increasing target value", targetValue);
+//	frc::SmartDashboard::PutNumber("Increasing target value", targetValue);
 	frc::SmartDashboard::PutNumber("motor output", lift.motorPower);
 }
 
@@ -187,8 +172,8 @@ void LiftSystem::ResetLiftFlag()
 	liftSet = false;
 }
 
-double LiftSystem::GetTargetValue()
-{
-	return targetValue;
-}
+//double LiftSystem::GetTargetValue()
+//{
+//	return targetValue;
+//}
 

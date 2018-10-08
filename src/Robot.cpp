@@ -74,8 +74,10 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-	m_autoCommand->Cancel();
-	Robot::wristSystem->TestWristPID(-15);
+	if(m_autoCommand != nullptr)
+	{
+		m_autoCommand->Cancel();
+	}
 //	autonomousCommand->Cancel();
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to

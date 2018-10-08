@@ -32,12 +32,13 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wrist.kd = 0.25;
 	wristMotor->ConfigOpenloopRamp(0.25, 0);
 	wristSet = false;
+	wristTarget = pot->Get();
 }
 
 void WristSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
-	//SetDefaultCommand(new WristPIDControl());
+	SetDefaultCommand(new WristPIDControl());
 }
 
 // Put methods for controlling this subsystem
@@ -82,12 +83,12 @@ void WristSystem::HoldWristPosition()
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 }
 
-void WristSystem::TestWristPID(float target)
+void WristSystem::TestWristPID()
 {
 	double nkp = 0.0125;
 	double angle = avgPotVal*(3.14/140);
 	//double setTarget = -32.5*(target-1);
-	wrist.error = avgPotVal - target;
+	wrist.error = avgPotVal - wristTarget;
 	wrist.integrator += wrist.error;
 	if(wrist.error < 0)
 	{
@@ -97,9 +98,10 @@ void WristSystem::TestWristPID(float target)
 	{
 		wrist.motorPower = (wrist.error * nkp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
 	}
-	if(avgPotVal < 0 && target < 0)
+	if(avgPotVal < 0 && wristTarget < 0)
 	{
 		wristMotor->Set(ControlMode::PercentOutput, 0);
+		printf("wrist power set to 0");
 	}
 	else
 	{
@@ -110,6 +112,7 @@ void WristSystem::TestWristPID(float target)
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);
 	frc::SmartDashboard::PutNumber("Target error", wrist.error);
+	frc::SmartDashboard::PutNumber("wrist target", wristTarget);
 }
 
 bool WristSystem::WristFlag()
@@ -120,4 +123,9 @@ bool WristSystem::WristFlag()
 void WristSystem::ResetWristFlag()
 {
 	wristSet = false;
+}
+
+void WristSystem::SetWristTarget(double angle)
+{
+	wristTarget = angle;
 }

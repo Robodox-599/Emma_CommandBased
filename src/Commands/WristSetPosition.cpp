@@ -24,7 +24,8 @@ void WristSetPosition::Initialize() {
 void WristSetPosition::Execute() {
 	Robot::wristSystem->UpdatePotVal();
 	Robot::wristSystem->GetAvgPotVal();
-	Robot::wristSystem->TestWristPID(angle);
+	Robot::wristSystem->SetWristTarget(angle);
+	Robot::wristSystem->TestWristPID();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -34,11 +35,11 @@ bool WristSetPosition::IsFinished() {
 
 // Called once after isFinished returns true
 void WristSetPosition::End() {
-	Robot::wristSystem->TestWristPID(angle);
+	Robot::wristSystem->TestWristPID();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void WristSetPosition::Interrupted() {
-
+	End();
 }
