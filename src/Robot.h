@@ -11,6 +11,7 @@
 #include <Commands/DriveGyroTurn.h>
 #include <Commands/TestAuto1.h>
 #include <Commands/WristPIDControl.h>
+#include <Commands/AutonomousCommand.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <TimedRobot.h>
 
@@ -32,7 +33,6 @@ public:
 	static RungSystem* rungSystem;
 	static WristSystem* wristSystem;
 	static OI* oi;
-	std::string gameData;
 
 	void RobotInit() override;
 	void DisabledInit() override;

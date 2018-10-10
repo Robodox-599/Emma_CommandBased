@@ -16,7 +16,7 @@ WristPIDControl::WristPIDControl() {
 
 // Called just before this Command runs the first time
 void WristPIDControl::Initialize() {
-
+	printf("wrist default init\n");
 }
 
 // Called repeatedly when this Command is scheduled to run

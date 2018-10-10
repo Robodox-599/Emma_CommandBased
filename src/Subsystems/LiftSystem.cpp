@@ -152,8 +152,8 @@ void LiftSystem::LiftPositionPID(double targetTicks)
 	lift.error = targetTicks - GetEncoder();
 	lift.integrator += lift.error;
 	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-	if(lift.motorPower > 0.25){lift.motorPower = 0.25;}
-	if(lift.motorPower < -0.25){lift.motorPower = -0.25;}
+	if(lift.motorPower > 0.3){lift.motorPower = 0.3;}
+	if(lift.motorPower < 0){lift.motorPower = 0;}
 	SetLiftMotors(lift.motorPower);
 	lift.prevError = lift.error;
 	if(lift.error > -100 && lift.error < 100){liftSet = true;}

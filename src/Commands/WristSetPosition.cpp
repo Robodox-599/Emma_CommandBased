@@ -11,26 +11,27 @@
 WristSetPosition::WristSetPosition(float target) {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(Robot::wristSystem);
+//	Requires(Robot::wristSystem);
 	angle = target;
 }
 
 // Called just before this Command runs the first time
 void WristSetPosition::Initialize() {
-	Robot::wristSystem->ResetWristFlag();
+//	Robot::wristSystem->ResetWristFlag();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void WristSetPosition::Execute() {
-	Robot::wristSystem->UpdatePotVal();
-	Robot::wristSystem->GetAvgPotVal();
+//	Robot::wristSystem->UpdatePotVal();
+//	Robot::wristSystem->GetAvgPotVal();
 	Robot::wristSystem->SetWristTarget(angle);
-	Robot::wristSystem->TestWristPID();
+//	Robot::wristSystem->TestWristPID();
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristSetPosition::IsFinished() {
 	return Robot::wristSystem->WristFlag();
+//	return Robot::wristSystem->WristTargetSet(angle);
 	printf("Robot received wrist flag\n");
 }
 

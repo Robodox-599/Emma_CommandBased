@@ -14,6 +14,7 @@
 WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wristMotor = new TalonSRX(11);
 	pot = new AnalogPotentiometer(3, 200, -46);
+	wristTarget = pot->Get();
 	avgPotVal = 0;
 	potVals[0] = 0;
 	potVals[1] = 0;
@@ -32,7 +33,6 @@ WristSystem::WristSystem() : Subsystem("WristSystem") {
 	wrist.kd = 0.25;
 	wristMotor->ConfigOpenloopRamp(0.25, 0);
 	wristSet = false;
-	wristTarget = pot->Get();
 }
 
 void WristSystem::InitDefaultCommand() {
@@ -93,19 +93,14 @@ void WristSystem::TestWristPID()
 	if(wrist.error < 0)
 	{
 		wrist.motorPower = (wrist.error * wrist.kp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
-		printf("%f", wrist.motorPower);
-		printf("wrist motor power");
 	}
 	else
 	{
 		wrist.motorPower = (wrist.error * nkp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
-		printf("%f", wrist.motorPower);
-		printf("wrist motor power");
 	}
 	if(avgPotVal < 0 && wristTarget < 0)
 	{
 		wristMotor->Set(ControlMode::PercentOutput, 0);
-		printf("wrist power set to 0\n");
 	}
 	else
 	{
@@ -132,4 +127,16 @@ void WristSystem::ResetWristFlag()
 void WristSystem::SetWristTarget(double angle)
 {
 	wristTarget = angle;
+}
+
+bool WristSystem::WristTargetSet(double angle)
+{
+	if(wristTarget == angle)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

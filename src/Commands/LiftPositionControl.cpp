@@ -28,7 +28,7 @@ void LiftPositionControl::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool LiftPositionControl::IsFinished() {
-	return Robot::liftSystem->GetLiftFlag() || Robot::liftSystem->GetUpperLimitSwitch();
+	return Robot::liftSystem->GetLiftFlag() || Robot::liftSystem->GetUpperLimitSwitch() || Robot::liftSystem->GetLowerLimitSwitch();
 }
 
 // Called once after isFinished returns true

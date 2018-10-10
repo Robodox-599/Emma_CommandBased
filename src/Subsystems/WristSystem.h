@@ -34,5 +34,6 @@ public:
 	bool WristFlag();
 	void ResetWristFlag();
 	void SetWristTarget(double angle);
+	bool WristTargetSet(double angle);
 };
 

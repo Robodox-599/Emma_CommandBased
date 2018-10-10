@@ -25,8 +25,12 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 //	m_chooser.AddDefault("Nothing", nullptr);
 	//m_chooser.AddDefault("Drive Distance", new DriveDistance(10, 0, 2250, 0.5));
-	m_chooser.AddDefault("Gyro Turn", new DriveGyroTurn(90));
-	m_chooser.AddObject("Test Auto", new TestAuto1());
+//	m_chooser.AddDefault("Gyro Turn", new DriveGyroTurn(90));
+//	m_chooser.AddObject("Test Auto", new TestAuto1());
+	m_chooser.AddDefault("Left Side Auto", new AutonomousCommand(1));
+	m_chooser.AddObject("Middle Auto", new AutonomousCommand(2));
+	m_chooser.AddObject("Right Side Auto", new AutonomousCommand(3));
+
 	comp599->SetClosedLoopControl(true);
 
 }
@@ -59,7 +63,6 @@ void Robot::DisabledPeriodic() {
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit() {
-	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	m_autoCommand.reset(m_chooser.GetSelected());
 	if (m_autoCommand.get() != nullptr)
 	{
