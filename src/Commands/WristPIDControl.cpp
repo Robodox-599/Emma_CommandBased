@@ -25,6 +25,7 @@ void WristPIDControl::Execute() {
 	Robot::wristSystem->GetAvgPotVal();
 	//Robot::wristSystem->HoldWristPosition();
 	Robot::wristSystem->TestWristPID();
+	printf("running wrist default command\n");
 }
 
 // Make this return true when this Command no longer needs to run execute()

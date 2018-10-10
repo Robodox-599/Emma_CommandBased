@@ -31,11 +31,12 @@ void WristSetPosition::Execute() {
 // Make this return true when this Command no longer needs to run execute()
 bool WristSetPosition::IsFinished() {
 	return Robot::wristSystem->WristFlag();
+	printf("Robot received wrist flag\n");
 }
 
 // Called once after isFinished returns true
 void WristSetPosition::End() {
-	Robot::wristSystem->TestWristPID();
+	printf("Wrist Code Ended\n");
 }
 
 // Called when another command which requires one or more of the same

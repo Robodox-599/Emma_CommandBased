@@ -33,7 +33,7 @@ bool LiftPositionControl::IsFinished() {
 
 // Called once after isFinished returns true
 void LiftPositionControl::End() {
-	Robot::liftSystem->SetLiftMotors(0.17);
+	Robot::liftSystem->setTargetValue(Robot::liftSystem->GetEncoder());
 	Robot::liftSystem->ResetLiftFlag();
 }
 

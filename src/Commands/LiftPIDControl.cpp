@@ -16,7 +16,7 @@ LiftPIDControl::LiftPIDControl() {
 
 // Called just before this Command runs the first time
 void LiftPIDControl::Initialize() {
-	Robot::liftSystem->ResetEncoder();
+
 }
 
 // Called repeatedly when this Command is scheduled to run

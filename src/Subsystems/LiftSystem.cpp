@@ -25,10 +25,10 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 
 	lift.kf = 0.17;
 	lift.kp = 0.0004;
-	lift.ki = 0.00001;
+	lift.ki = 0;
 	lift.kd = 0;
 	lift.integrator = 0;
-	targetValue = 0;
+
 
 	backLeftLift->SetInverted(false);
 	frontLeftLift->SetInverted(false);
@@ -40,7 +40,7 @@ LiftSystem::LiftSystem() : Subsystem("LiftSystem") {
 	frontLeftLift->ConfigSelectedFeedbackSensor(QuadEncoder, 0, 0);
 	frontLeftLift->SetSelectedSensorPosition(0, 0, 0);
 	frontLeftLift->Config_kF(0, 0.17, 10);
-
+	targetValue = 0;
 	liftSet = false;
 	//newTargetValue = 0;
 }
@@ -83,7 +83,7 @@ void LiftSystem::JoystickLift(double y)
 	backLeftLift->Set(ControlMode::PercentOutput, y);
 	frontRightLift->Set(ControlMode::PercentOutput, y);
 	backRightLift->Set(ControlMode::PercentOutput, y);
-	frc::SmartDashboard::PutNumber("Lift Encoder", frontLeftLift->GetSelectedSensorPosition(FeedbackDevice::QuadEncoder));\
+	frc::SmartDashboard::PutNumber("Lift Encoder", frontLeftLift->GetSelectedSensorPosition(FeedbackDevice::QuadEncoder));
 	frc::SmartDashboard::PutNumber("Front Left Motor", frontLeftLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Front Right Motor", frontRightLift->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Rear Left Motor", backLeftLift->GetMotorOutputPercent());
@@ -152,7 +152,8 @@ void LiftSystem::LiftPositionPID(double targetTicks)
 	lift.error = targetTicks - GetEncoder();
 	lift.integrator += lift.error;
 	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
-	if(lift.motorPower > 0.5){lift.motorPower = 0.25;}
+	if(lift.motorPower > 0.25){lift.motorPower = 0.25;}
+	if(lift.motorPower < -0.25){lift.motorPower = -0.25;}
 	SetLiftMotors(lift.motorPower);
 	lift.prevError = lift.error;
 	if(lift.error > -100 && lift.error < 100){liftSet = true;}
@@ -170,6 +171,11 @@ bool LiftSystem::GetLiftFlag()
 void LiftSystem::ResetLiftFlag()
 {
 	liftSet = false;
+}
+
+void LiftSystem::setTargetValue(double target)
+{
+	targetValue = target;
 }
 
 //double LiftSystem::GetTargetValue()

@@ -59,6 +59,7 @@ void Robot::DisabledPeriodic() {
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit() {
+	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	m_autoCommand.reset(m_chooser.GetSelected());
 	if (m_autoCommand.get() != nullptr)
 	{
@@ -78,6 +79,7 @@ void Robot::TeleopInit() {
 	{
 		m_autoCommand->Cancel();
 	}
+	liftSystem->setTargetValue(liftSystem->GetEncoder());
 //	autonomousCommand->Cancel();
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to

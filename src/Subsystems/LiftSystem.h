@@ -40,6 +40,7 @@ public:
 	void LiftPositionPID(double targetTicks);
 	bool GetLiftFlag();
 	void ResetLiftFlag();
+	void setTargetValue(double target);
 //	double GetTargetValue();
 
 

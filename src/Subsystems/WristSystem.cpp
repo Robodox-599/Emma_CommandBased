@@ -93,21 +93,25 @@ void WristSystem::TestWristPID()
 	if(wrist.error < 0)
 	{
 		wrist.motorPower = (wrist.error * wrist.kp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
+		printf("%f", wrist.motorPower);
+		printf("wrist motor power");
 	}
 	else
 	{
 		wrist.motorPower = (wrist.error * nkp) + (wrist.kd * (wrist.error - wrist.prevError)) + (wrist.ki * wrist.integrator);
+		printf("%f", wrist.motorPower);
+		printf("wrist motor power");
 	}
 	if(avgPotVal < 0 && wristTarget < 0)
 	{
 		wristMotor->Set(ControlMode::PercentOutput, 0);
-		printf("wrist power set to 0");
+		printf("wrist power set to 0\n");
 	}
 	else
 	{
 		wristMotor->Set(ControlMode::PercentOutput, ((wrist.kf)*cos(angle))+wrist.motorPower);
 	}
-	if(wrist.error > -1 && wrist.error < 1){wristSet = true;}
+	if(wrist.error > -2 && wrist.error < 2){wristSet = true;}
 	wrist.prevError = wrist.error;
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);
