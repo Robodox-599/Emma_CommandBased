@@ -47,7 +47,7 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	frontRightMotor->ConfigClosedloopRamp(seconds, 0);
 
 	float kp = 0.8;
-	float ki = 0.004;
+	float ki = 0;
 
 	rearLeftMotor->Config_kF(0, 0.45, 0);
 	rearLeftMotor->Config_kP(0, kp, 0);
@@ -84,6 +84,8 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	currentHeading = 0;
 	gyroTarget = 0;
 	turn = false;
+	teleopFlag = false;
+	autoFlag = false;
 }
 
 void DriveSystem::InitDefaultCommand() {
@@ -160,6 +162,12 @@ void DriveSystem::JoystickVelocityDrive(double x, double y)
 {
 	double l;
 	double r;
+	double leftOutput;
+	double rightOutput;
+	double increment = 600;
+
+	teleopFlag = true;
+	autoFlag = false;
 
 	if(y > 0.2)
 	{
@@ -176,11 +184,11 @@ void DriveSystem::JoystickVelocityDrive(double x, double y)
 
 	if(x > 0.2)
 	{
-		x = (x-0.2)*1/.8*3000/**max velocity*/;
+		x = (x-0.2)*1/.8*1500/**max velocity/2*/;
 	}
 	else if(x < -0.2)
 	{
-		x = (x+0.2)*1/.8*3000/**max velocity*/;
+		x = (x+0.2)*1/.8*1500/**max velocity/2*/;
 	}
 	else
 	{
@@ -190,10 +198,36 @@ void DriveSystem::JoystickVelocityDrive(double x, double y)
 	l = -y+x;
 	r = -y-x;
 
+	if(l > rearLeftMotor->GetSelectedSensorVelocity(0) + increment)
+	{
+		leftOutput = rearLeftMotor->GetSelectedSensorVelocity(0) + increment;
+	}
+	else if(l < rearLeftMotor->GetSelectedSensorVelocity(0) - increment)
+	{
+		leftOutput = rearLeftMotor->GetSelectedSensorVelocity(0) - increment;
+	}
+	else
+	{
+		leftOutput = l;
+	}
+
+	if(r > rearRightMotor->GetSelectedSensorVelocity(0) + increment)
+	{
+		rightOutput = rearRightMotor->GetSelectedSensorVelocity(0) + increment;
+	}
+	else if(r < rearRightMotor->GetSelectedSensorVelocity(0) - increment)
+	{
+		rightOutput = rearRightMotor->GetSelectedSensorVelocity(0) - increment;
+	}
+	else
+	{
+		rightOutput = r;
+	}
+
 	frontLeftMotor->Set(ControlMode::Follower, 1);
-	rearLeftMotor->Set(ControlMode::Velocity, l);
+	rearLeftMotor->Set(ControlMode::Velocity, leftOutput);
 	frontRightMotor->Set(ControlMode::Follower, 3);
-	rearRightMotor->Set(ControlMode::Velocity, r);
+	rearRightMotor->Set(ControlMode::Velocity, rightOutput);
 
 	frc::SmartDashboard::PutNumber("Power input left", l);
 	frc::SmartDashboard::PutNumber("Power input right", r);
@@ -228,6 +262,8 @@ void DriveSystem::DriveVelDistance(float feet, float inches, double maxVel, doub
 	double velocityFactor;
 	double nativeTime = timeOfAcceleration*10;
 	double t2 = ((position-(maxVel * nativeTime))/maxVel)/10 + timeOfAcceleration;
+	autoFlag = true;
+	teleopFlag = false;
 	if(timer->Get() < t2)
 	{
 		velocityFactor = timer->Get()/timeOfAcceleration;
@@ -338,4 +374,45 @@ void DriveSystem::GetGyroValues()
 void DriveSystem::ResetDriveFlag()
 {
 	isFinished = false;
+}
+
+void DriveSystem::SetAutoFlag()
+{
+	autoFlag = true;
+	teleopFlag = false;
+}
+
+void DriveSystem::SetTeleopFlag()
+{
+	teleopFlag = true;
+	autoFlag = false;
+}
+
+void DriveSystem::SetPID()
+{
+	float kp = 0.8;
+	float ki;
+	if(teleopFlag == true)
+	{
+		ki = 0;
+	}
+	if(autoFlag == true)
+	{
+		ki = 0.004;
+	}
+	rearLeftMotor->Config_kF(0, 0.45, 0);
+	rearLeftMotor->Config_kP(0, kp, 0);
+	rearLeftMotor->Config_kI(0, ki, 0);
+
+	rearRightMotor->Config_kF(0, 0.45, 0);
+	rearRightMotor->Config_kP(0, kp, 0);
+	rearRightMotor->Config_kI(0, ki, 0);
+
+	frontLeftMotor->Config_kF(0, 0.45, 0);
+	frontLeftMotor->Config_kP(0, kp, 0);
+	frontLeftMotor->Config_kI(0, ki, 0);
+
+	frontRightMotor->Config_kF(0, 0.45, 0);
+	frontRightMotor->Config_kP(0, kp, 0);
+	frontRightMotor->Config_kI(0, ki, 0);
 }

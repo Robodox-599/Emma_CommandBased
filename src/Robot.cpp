@@ -32,7 +32,7 @@ void Robot::RobotInit() {
 	m_chooser.AddObject("Right Side Auto", new AutonomousCommand(3));
 
 	comp599->SetClosedLoopControl(true);
-
+	CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
 /**
@@ -66,8 +66,11 @@ void Robot::AutonomousInit() {
 	m_autoCommand.reset(m_chooser.GetSelected());
 	if (m_autoCommand.get() != nullptr)
 	{
+		driveSystem->SetAutoFlag();
+		driveSystem->SetPID();
 			m_autoCommand->Start();
 	}
+
 //	autonomousCommand->Start();
 	// m_autoSelected = SmartDashboard::GetString(
 	// 		"Auto Selector", kAutoNameDefault);
@@ -83,6 +86,8 @@ void Robot::TeleopInit() {
 		m_autoCommand->Cancel();
 	}
 	liftSystem->setTargetValue(liftSystem->GetEncoder());
+	driveSystem->SetTeleopFlag();
+	driveSystem->SetPID();
 //	autonomousCommand->Cancel();
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to

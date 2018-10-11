@@ -49,12 +49,12 @@ OI::OI() {
 	Button1->WhileHeld(new IntakeJoystick());
 	Button4->WhileHeld(new IntakeTeleop(1));
 
-	Button6->WhenPressed(new RungDeploy());
-	Button7->WhenPressed(new RungReset());
-	Button8->WhenPressed(new RopeRelease());
-	Button9->WhenPressed(new RopeReset());
+	Button7->WhenPressed(new RungDeploy());
+	Button6->WhenPressed(new RungReset());
+	Button9->WhenPressed(new RopeRelease());
+	Button8->WhenPressed(new RopeReset());
 
-	Button2->WhenPressed(new WristSetPosition(65));
-	Button11->WhenPressed(new WristSetPosition(32.5));
-	Button10->WhenPressed(new WristSetPosition(-15));
+	Button3->WhenPressed(new WristSetPosition(65));
+	Button5->WhenPressed(new WristSetPosition(32.5));
+	Button2->WhenPressed(new WristSetPosition(-15));
 }

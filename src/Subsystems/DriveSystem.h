@@ -30,6 +30,8 @@ private:
 	bool turn;
 	double currentHeading;
 	double gyroTarget;
+	bool autoFlag;
+	bool teleopFlag;
 public:
 	DriveSystem();
 	void InitDefaultCommand() override;
@@ -52,6 +54,9 @@ public:
 	double ReturnGyroTarget();
 	void GetGyroValues();
 	void ResetDriveFlag();
+	void SetTeleopFlag();
+	void SetAutoFlag();
+	void SetPID();
 
 	bool setTime;
 	double decelerate;

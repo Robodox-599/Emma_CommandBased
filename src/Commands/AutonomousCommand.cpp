@@ -79,14 +79,14 @@ AutonomousCommand::AutonomousCommand(int position) {
 //	}
 	if(position == 3)
 	{
-		AddSequential(new WristSetPosition(32.5));
-		AddSequential(new DriveDistance(27, -16, 3000, 2));
-		AddSequential(new DriveGyroTurn(90));
-		AddSequential(new LiftPositionControl(28000));
-		AddSequential(new IntakeOutput(1));
-		AddSequential(new IntakeTimed(-.2, 0.1));
-		AddSequential(new LiftPositionControl(0));
-		AddSequential(new WristSetPosition(65));
+//		AddSequential(new WristSetPosition(32.5));
+		AddSequential(new DriveDistance(20, 0, 1500, 0.5));
+//		AddSequential(new DriveGyroTurn(90));
+//		AddSequential(new LiftPositionControl(28000));
+//		AddSequential(new IntakeOutput(1));
+//		AddSequential(new IntakeTimed(-.2, 0.1));
+//		AddSequential(new LiftPositionControl(0));
+//		AddSequential(new WristSetPosition(65));
 	}
 	if(position == 1)
 	{
