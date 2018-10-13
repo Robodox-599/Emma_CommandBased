@@ -25,77 +25,87 @@ AutonomousCommand::AutonomousCommand(int position) {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-//	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-//	gameData[0] = 'R';
-//
-//	if(gameData.length() > 0)
-//	{
-//		if(position == 1)
-//		{
-//			if(gameData[0] == 'L')
-//			{
-//				printf("game data received");
-//				AddSequential(new WristSetPosition(32.5));
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//				AddSequential(new DriveGyroTurn(-90));
-//				AddSequential(new LiftPositionControl(7500));
-//				AddSequential(new IntakeOutput(1));
-//				AddParallel(new LiftPositionControl(0));
-//				AddSequential(new WristSetPosition(65));
-//			}
-//			else
-//			{
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//			}
-//		}
-//		if(position == 2)
-//		{
-//			if(gameData[0] == 'L')
-//			{
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//			}
-//			else
-//			{
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//			}
-//		}
-//		if(position == 3)
-//		{
-//			if(gameData[0] == 'R')
-//			{
-//				AddSequential(new WristSetPosition(32.5));
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//				AddSequential(new DriveGyroTurn(90));
-//				AddSequential(new LiftPositionControl(7500));
-//				AddSequential(new IntakeOutput(1));
-//				AddParallel(new LiftPositionControl(0));
-//				AddSequential(new WristSetPosition(65));
-//			}
-//			else
-//			{
-//				AddSequential(new DriveDistance(0, 152, 1500, .5));
-//			}
-//		}
-//	}
-	if(position == 3)
+	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+
+	if(gameData.length() > 0)
 	{
-//		AddSequential(new WristSetPosition(32.5));
-		AddSequential(new DriveDistance(20, 0, 1500, 0.5));
-//		AddSequential(new DriveGyroTurn(90));
-//		AddSequential(new LiftPositionControl(28000));
-//		AddSequential(new IntakeOutput(1));
-//		AddSequential(new IntakeTimed(-.2, 0.1));
-//		AddSequential(new LiftPositionControl(0));
-//		AddSequential(new WristSetPosition(65));
-	}
-	if(position == 1)
-	{
-		AddSequential(new WristSetPosition(32.5));
-		AddSequential(new DriveDistance(0, 152, 1500, .5));
-		AddSequential(new DriveGyroTurn(-90));
-		AddSequential(new LiftPositionControl(7500));
-		AddSequential(new IntakeOutput(1));
-		AddParallel(new LiftPositionControl(0));
-		AddSequential(new WristSetPosition(65));
+		if(position == 1)
+		{
+			if(gameData[0] == 'L' && gameData[1] != 'L')
+			{
+				printf("game data received");
+				AddSequential(new WristSetPosition(32.5));
+				AddSequential(new DriveDistance(14, -19.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(-90));
+				AddSequential(new LiftPositionControl(7500));
+				AddSequential(new IntakeOutput(1));
+				AddSequential(new IntakeTimed(-.2, 0.1));
+				AddSequential(new LiftPositionControl(0));
+				AddSequential(new WristSetPosition(65));
+			}
+			else if(gameData[1] == 'L')
+			{
+				AddSequential(new WristSetPosition(32.5));
+				AddSequential(new DriveDistance(22, -9.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(-45));
+				AddSequential(new LiftPositionControl(28000));
+				AddSequential(new IntakeOutput(1));
+				AddSequential(new IntakeTimed(-.2, 0.1));
+				AddSequential(new LiftPositionControl(0));
+				AddSequential(new WristSetPosition(65));
+			}
+			else
+			{
+				AddSequential(new DriveDistance(14, -19.5, 3000, 1));
+			}
+		}
+		if(position == 2)
+		{
+			if(gameData[0] == 'L' && gameData[1] != 'L')
+			{
+				AddSequential(new DriveDistance(5, -14.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(70));
+				AddSequential(new DriveDistance(6, 4.95, 3000, 1));
+				AddSequential(new DriveGyroTurn(-110));
+				AddSequential(new DriveDistance(4, -19, 3000, 1));
+			}
+			else
+			{
+				AddSequential(new DriveDistance(5, -14.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(-45));
+				AddSequential(new DriveDistance(4, 3.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(135));
+				AddSequential(new DriveDistance(3, -17.5, 3000, 1));
+			}
+		}
+		if(position == 3)
+		{
+			if(gameData[0] == 'R' && gameData[1] != 'R')
+			{
+				AddSequential(new WristSetPosition(32.5));
+				AddSequential(new DriveDistance(14, -19.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(90));
+				AddSequential(new LiftPositionControl(7500));
+				AddSequential(new IntakeOutput(1));
+				AddSequential(new IntakeTimed(-.2, 0.1));
+				AddSequential(new LiftPositionControl(0));
+				AddSequential(new WristSetPosition(65));
+			}
+			else if(gameData[1] == 'R')
+			{
+				AddSequential(new WristSetPosition(32.5));
+				AddSequential(new DriveDistance(22, -9.5, 3000, 1));
+				AddSequential(new DriveGyroTurn(45));
+				AddSequential(new LiftPositionControl(28000));
+				AddSequential(new IntakeOutput(1));
+				AddSequential(new IntakeTimed(-.2, 0.1));
+				AddSequential(new LiftPositionControl(0));
+				AddSequential(new WristSetPosition(65));
+			}
+			else
+			{
+				AddSequential(new DriveDistance(14, -19.5, 3000, 1));
+			}
+		}
 	}
 }
