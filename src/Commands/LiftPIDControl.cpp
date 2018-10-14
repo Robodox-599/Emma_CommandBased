@@ -23,32 +23,38 @@ void LiftPIDControl::Initialize() {
 void LiftPIDControl::Execute() {
 	//Robot::liftSystem->JoystickLift(Robot::oi->atk3->GetRawAxis(1));
 	Robot::liftSystem->GetEncoder();
-	//Robot::liftSystem->SetLiftMotors(0.17);
-	if(Robot::oi->atk3->GetRawAxis(1) > 0 && Robot::liftSystem->GetUpperLimitSwitch())
+	if(Robot::oi->atk3->GetRawButton(11))
 	{
-		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftJoystickPID(0);
-		Robot::liftSystem->maxEncVal = Robot::liftSystem->GetEncoder();
-	}
-	else if(Robot::oi->atk3->GetRawAxis(1) < 0 && Robot::liftSystem->GetLowerLimitSwitch())
-	{
-		//Robot::liftSystem->JoystickLift(0);
-		Robot::liftSystem->LiftJoystickPID(0);
+		Robot::liftSystem->LiftJoystickPID(Robot::oi->atk3->GetRawAxis(1));
 	}
 	else
 	{
-		Robot::liftSystem->LiftJoystickPID(Robot::oi->atk3->GetRawAxis(1));
+		if(Robot::oi->atk3->GetRawAxis(1) > 0 && Robot::liftSystem->GetUpperLimitSwitch())
+		{
+			//Robot::liftSystem->JoystickLift(0);
+			Robot::liftSystem->LiftJoystickPID(0);
+			//Robot::liftSystem->maxEncVal = Robot::liftSystem->GetEncoder();
+		}
+		else if(Robot::oi->atk3->GetRawAxis(1) < 0 && Robot::liftSystem->GetLowerLimitSwitch())
+		{
+			//Robot::liftSystem->JoystickLift(0);
+			Robot::liftSystem->LiftJoystickPID(0);
+		}
+		else
+		{
+			Robot::liftSystem->LiftJoystickPID(Robot::oi->atk3->GetRawAxis(1));
+		}
 	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool LiftPIDControl::IsFinished() {
-	return false;
+	return Robot::climbSystem->climbState;
 }
 
 // Called once after isFinished returns true
 void LiftPIDControl::End() {
-
+	Robot::liftSystem->SetLiftMotors(0);
 }
 
 // Called when another command which requires one or more of the same

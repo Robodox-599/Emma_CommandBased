@@ -106,7 +106,8 @@ void WristSystem::TestWristPID()
 	{
 		wristMotor->Set(ControlMode::PercentOutput, ((wrist.kf)*cos(angle))+wrist.motorPower);
 	}
-	if(wrist.error > -2 && wrist.error < 2){wristSet = true;}
+	if(wrist.error > -3 && wrist.error < 3){wristSet = true;}
+	if(wristTarget < 0){wristSet = true;}
 	wrist.prevError = wrist.error;
 	frc::SmartDashboard::PutNumber("Wrist Motor Power Output", wristMotor->GetMotorOutputPercent());
 	frc::SmartDashboard::PutNumber("Previous Error", wrist.prevError);

@@ -41,6 +41,7 @@ public:
 	bool GetLiftFlag();
 	void ResetLiftFlag();
 	void setTargetValue(double target);
+	void TurnOffLift();
 //	double GetTargetValue();
 
 

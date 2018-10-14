@@ -27,9 +27,9 @@ void Robot::RobotInit() {
 	//m_chooser.AddDefault("Drive Distance", new DriveDistance(10, 0, 2250, 0.5));
 //	m_chooser.AddDefault("Gyro Turn", new DriveGyroTurn(90));
 //	m_chooser.AddObject("Test Auto", new TestAuto1());
-	m_chooser.AddDefault("Left Side Auto", new AutonomousCommand(1));
-	m_chooser.AddObject("Middle Auto", new AutonomousCommand(2));
-	m_chooser.AddObject("Right Side Auto", new AutonomousCommand(3));
+	m_chooser.AddDefault("Left Side Auto", 1);
+	m_chooser.AddObject("Middle Auto", 2);
+	m_chooser.AddObject("Right Side Auto", 3);
 
 	comp599->SetClosedLoopControl(true);
 	CameraServer::GetInstance()->StartAutomaticCapture();
@@ -63,12 +63,14 @@ void Robot::DisabledPeriodic() {
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit() {
-	m_autoCommand.reset(m_chooser.GetSelected());
+	m_autoCommand.reset(new AutonomousCommand(m_chooser.GetSelected()));
+//	m_autoCommand.reset(m_chooser.GetSelected());
 	if (m_autoCommand.get() != nullptr)
 	{
 		driveSystem->SetAutoFlag();
 		driveSystem->SetPID();
-			m_autoCommand->Start();
+		driveSystem->ResetGyro();
+		m_autoCommand->Start();
 	}
 
 //	autonomousCommand->Start();
@@ -96,6 +98,10 @@ void Robot::TeleopInit() {
 	}
 
 void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run();
+if(climbSystem->climbState == true)
+{
+	liftSystem->TurnOffLift();
+}
 frc::SmartDashboard::PutNumber("Average Potentiometer Value", Robot::wristSystem->GetPotVal());
 frc::SmartDashboard::PutNumber("Z axis Value", Robot::oi->atk3->GetRawAxis(2));}
 

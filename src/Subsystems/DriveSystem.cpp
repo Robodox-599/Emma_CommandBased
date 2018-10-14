@@ -323,6 +323,7 @@ void DriveSystem::GetYaw()
 
 double DriveSystem::SetGyroTarget(double target)
 {
+	GetYaw();
 	return gyroTarget = currentHeading + target;
 }
 
@@ -352,7 +353,7 @@ void DriveSystem::GyroTurn(double angle)
 	if(error > 0){velocityFactor = (error+3)/accAngle;}
 	if(velocityFactor > 1){velocityFactor = 1;}
 	if(velocityFactor < -1){velocityFactor = -1;}
-	if(error == 0){error = 0; turn = true;}
+	if(error > -1 && error < 1){velocityFactor = 0; turn = true;}
 
 	frontLeftMotor->Set(ControlMode::Follower, 1);
 	rearLeftMotor->Set(ControlMode::Velocity, -velocity*velocityFactor);
@@ -415,4 +416,9 @@ void DriveSystem::SetPID()
 	frontRightMotor->Config_kF(0, 0.45, 0);
 	frontRightMotor->Config_kP(0, kp, 0);
 	frontRightMotor->Config_kI(0, ki, 0);
+}
+
+void DriveSystem::ResetGyro()
+{
+	pGyon->SetYaw(0, 0);
 }

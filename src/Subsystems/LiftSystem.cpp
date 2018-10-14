@@ -154,6 +154,11 @@ void LiftSystem::LiftPositionPID(double targetTicks)
 	lift.motorPower = lift.kf + (lift.error * lift.kp) + lift.kd * (lift.error - lift.prevError) + (lift.ki * lift.integrator);
 	if(lift.motorPower > 0.5){lift.motorPower = 0.5;}
 	if(lift.motorPower < -0.2){lift.motorPower = -0.2;}
+//	if(lift.error > -3000 && lift.error < 3000)
+//	{
+//		if(lift.motorPower > 0.3){lift.motorPower = 0.3;}
+//		if(lift.motorPower < -0.1){lift.motorPower = -0.1;}
+//	}
 	SetLiftMotors(lift.motorPower);
 	lift.prevError = lift.error;
 	if(lift.error > -100 && lift.error < 100){liftSet = true;}
@@ -161,6 +166,8 @@ void LiftSystem::LiftPositionPID(double targetTicks)
 	frc::SmartDashboard::PutNumber("desired lift value", targetTicks);
 //	frc::SmartDashboard::PutNumber("Increasing target value", targetValue);
 	frc::SmartDashboard::PutNumber("motor output", lift.motorPower);
+	frc::SmartDashboard::PutNumber("lift error", lift.error);
+	frc::SmartDashboard::PutBoolean("lift done", liftSet);
 }
 
 bool LiftSystem::GetLiftFlag()
@@ -176,6 +183,11 @@ void LiftSystem::ResetLiftFlag()
 void LiftSystem::setTargetValue(double target)
 {
 	targetValue = target;
+}
+
+void LiftSystem::TurnOffLift()
+{
+	lift.motorPower = 0;
 }
 
 //double LiftSystem::GetTargetValue()

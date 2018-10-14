@@ -16,7 +16,6 @@ WristPIDControl::WristPIDControl() {
 
 // Called just before this Command runs the first time
 void WristPIDControl::Initialize() {
-	printf("wrist default init\n");
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -25,7 +24,6 @@ void WristPIDControl::Execute() {
 	Robot::wristSystem->GetAvgPotVal();
 	//Robot::wristSystem->HoldWristPosition();
 	Robot::wristSystem->TestWristPID();
-	printf("running wrist default command\n");
 }
 
 // Make this return true when this Command no longer needs to run execute()

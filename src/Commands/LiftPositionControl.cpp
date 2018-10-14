@@ -34,7 +34,6 @@ bool LiftPositionControl::IsFinished() {
 // Called once after isFinished returns true
 void LiftPositionControl::End() {
 	Robot::liftSystem->setTargetValue(Robot::liftSystem->GetEncoder());
-	Robot::liftSystem->ResetLiftFlag();
 }
 
 // Called when another command which requires one or more of the same

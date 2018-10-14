@@ -57,6 +57,7 @@ public:
 	void SetTeleopFlag();
 	void SetAutoFlag();
 	void SetPID();
+	void ResetGyro();
 
 	bool setTime;
 	double decelerate;

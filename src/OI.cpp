@@ -25,6 +25,7 @@ OI::OI() {
 	JoystickButton* Buttonx2 = new JoystickButton(xbox, 2);
 	JoystickButton* Buttonx3 = new JoystickButton(xbox, 3);
 	JoystickButton* Buttonx4 = new JoystickButton(xbox, 4);
+	JoystickButton* Buttonx5 = new JoystickButton(xbox, 5);
 	JoystickButton* Buttonx6 = new JoystickButton(xbox, 6);
 	JoystickButton* Buttonx7 = new JoystickButton(xbox, 7);
 
@@ -41,8 +42,8 @@ OI::OI() {
 	JoystickButton* Button10 = new JoystickButton(atk3, 10);
 	JoystickButton* Button11 = new JoystickButton(atk3, 11);
 
-	Buttonx1->WhenPressed(new ClimbLock());
-	Buttonx3->WhenPressed(new ClimbUnlock());
+	Buttonx6->WhenPressed(new ClimbLock());
+	Buttonx5->WhenPressed(new ClimbUnlock());
 
 	Buttonx2->WhenPressed(new DriveShift());
 
@@ -54,7 +55,7 @@ OI::OI() {
 	Button9->WhenPressed(new RopeRelease());
 	Button8->WhenPressed(new RopeReset());
 
-	Button3->WhenPressed(new WristSetPosition(65));
-	Button5->WhenPressed(new WristSetPosition(32.5));
+	Button5->WhenPressed(new WristSetPosition(65));
+	Button3->WhenPressed(new WristSetPosition(32.5));
 	Button2->WhenPressed(new WristSetPosition(-15));
 }

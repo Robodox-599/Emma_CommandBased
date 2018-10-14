@@ -17,7 +17,7 @@ WristSetPosition::WristSetPosition(float target) {
 
 // Called just before this Command runs the first time
 void WristSetPosition::Initialize() {
-//	Robot::wristSystem->ResetWristFlag();
+	Robot::wristSystem->ResetWristFlag();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -32,12 +32,10 @@ void WristSetPosition::Execute() {
 bool WristSetPosition::IsFinished() {
 	return Robot::wristSystem->WristFlag();
 //	return Robot::wristSystem->WristTargetSet(angle);
-	printf("Robot received wrist flag\n");
 }
 
 // Called once after isFinished returns true
 void WristSetPosition::End() {
-	printf("Wrist Code Ended\n");
 }
 
 // Called when another command which requires one or more of the same

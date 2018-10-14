@@ -45,5 +45,5 @@ public:
 
 private:
 	std::unique_ptr<frc::Command> m_autoCommand;
-	frc::SendableChooser<frc::Command*> m_chooser;
+	frc::SendableChooser<int> m_chooser;
 };
