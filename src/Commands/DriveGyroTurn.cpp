@@ -17,14 +17,16 @@ DriveGyroTurn::DriveGyroTurn(double angle) {
 
 // Called just before this Command runs the first time
 void DriveGyroTurn::Initialize() {
+	Robot::driveSystem->GetGyroValues();
+	Robot::driveSystem->GetYaw();
 	Robot::driveSystem->SetGyroTarget(target);
 	Robot::driveSystem->ResetGyroFlag();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveGyroTurn::Execute() {
-	Robot::driveSystem->GetYaw();
 	Robot::driveSystem->GetGyroValues();
+	Robot::driveSystem->GetYaw();
 	Robot::driveSystem->GyroTurn(Robot::driveSystem->ReturnGyroTarget());
 }
 

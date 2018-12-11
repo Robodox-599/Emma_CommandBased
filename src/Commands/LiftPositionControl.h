@@ -19,5 +19,8 @@ public:
 	void Interrupted() override;
 private:
 	double target;
+	float virtualJoystick;
+	double startingPosition;
+	double accPosition;
 };
 

@@ -19,7 +19,7 @@ IntakeSystem::IntakeSystem() : Subsystem("IntakeSystem") {
 void IntakeSystem::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new IntakeSlow());
+	//SetDefaultCommand(new IntakeSlow());
 }
 
 // Put methods for controlling this subsystem

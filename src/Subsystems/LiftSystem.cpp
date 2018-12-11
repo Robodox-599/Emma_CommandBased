@@ -190,6 +190,10 @@ void LiftSystem::TurnOffLift()
 	lift.motorPower = 0;
 }
 
+void LiftSystem::SetLiftFlag()
+{
+	liftSet = true;
+}
 //double LiftSystem::GetTargetValue()
 //{
 //	return targetValue;

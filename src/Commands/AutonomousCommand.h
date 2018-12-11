@@ -15,6 +15,7 @@
 #include <Commands/LiftPositionControl.h>
 #include <Commands/IntakeOutput.h>
 #include <Commands/IntakeTimed.h>
+#include <Commands/DriveAccDistance.h>
 
 class AutonomousCommand : public frc::CommandGroup {
 public:

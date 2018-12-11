@@ -86,6 +86,9 @@ DriveSystem::DriveSystem() : Subsystem("DriveSystem") {
 	turn = false;
 	teleopFlag = false;
 	autoFlag = false;
+	targetHeading = 0;
+
+	velocity = 0;
 }
 
 void DriveSystem::InitDefaultCommand() {
@@ -296,6 +299,45 @@ void DriveSystem::DriveVelDistance(float feet, float inches, double maxVel, doub
 	frc::SmartDashboard::PutNumber("right encoder value", RightEncoderValue());
 }
 
+void DriveSystem::DriveAccDistance(float feet, float inches, double acceleration)
+{
+	double position = FeetToTicks(feet) + InchesToTicks(inches);
+	double cruiseTime;
+	double accTime;
+	double accDistance;
+	double cruiseDistance;
+	double maxVel = 3000;
+	autoFlag = true;
+	teleopFlag = false;
+	accTime = (maxVel/acceleration);
+	accDistance = 0.5*(acceleration)*(accTime)*(accTime);//(at^2)/2... *10 to convert to native units.
+	cruiseDistance = position - accDistance*2;
+	cruiseTime = (cruiseDistance/maxVel)/10;
+	if(timer->Get() < accTime)
+	{
+		velocity += acceleration/(accTime);
+	}
+	else if(timer->Get() > accTime && timer->Get() < (cruiseTime + accTime))
+	{
+		velocity = maxVel;
+	}
+	else
+	{
+		velocity -= acceleration/(accTime);
+	}
+	if(velocity <= 0){isFinished = true;}
+	frc::SmartDashboard::PutNumber("velocity", velocity);
+	frc::SmartDashboard::PutNumber("time", timer->Get());
+	frc::SmartDashboard::PutNumber("cruise distance", position - accDistance*2);
+	frc::SmartDashboard::PutNumber("Cruise Time", cruiseTime);
+	frc::SmartDashboard::PutNumber("Acceleration Time", accTime);
+	frc::SmartDashboard::PutNumber("Acceleration Distance", accDistance);
+//	frontLeftMotor->Set(ControlMode::Follower, 1);
+//	rearLeftMotor->Set(ControlMode::Velocity, velocity);
+//	frontRightMotor->Set(ControlMode::Follower, 3);
+//	rearRightMotor->Set(ControlMode::Velocity, velocity);
+}
+
 double DriveSystem::FeetToTicks(float feet)
 {
 	return feet*7650/1.66158333;
@@ -321,10 +363,11 @@ void DriveSystem::GetYaw()
 	currentHeading = ypr[0];
 }
 
-double DriveSystem::SetGyroTarget(double target)
+void DriveSystem::SetGyroTarget(double target)
 {
 	GetYaw();
-	return gyroTarget = currentHeading + target;
+	targetHeading = target;
+	gyroTarget = currentHeading + target;
 }
 
 double DriveSystem::ReturnGyroTarget()
@@ -344,27 +387,33 @@ bool DriveSystem::GetGyroFlag()
 
 void DriveSystem::GyroTurn(double angle)
 {
-	double accAngle = 30;
-	double velocity = 750;
+	double accAngle = 45;
+	double velocity = 1000;
 	double error;
 	double velocityFactor;
 	error = angle - currentHeading;
-	if(error < 0){velocityFactor = (error-3)/accAngle;}
-	if(error > 0){velocityFactor = (error+3)/accAngle;}
+	if(error > targetHeading/2 && angle > 0){velocityFactor = (targetHeading-error+10)/accAngle;}
+	else if(error > 0){velocityFactor = (error+3)/accAngle;}
+	if(error < targetHeading/2 && angle < 0){velocityFactor = (targetHeading-error-10)/accAngle;}
+	else if(error < 0){velocityFactor = (error-3)/accAngle;}
+
 	if(velocityFactor > 1){velocityFactor = 1;}
 	if(velocityFactor < -1){velocityFactor = -1;}
-	if(error > -1 && error < 1){velocityFactor = 0; turn = true;}
+//	if(error > -1 && error < 1){velocityFactor = 0; turn = true;}
+	if(error == 0){velocityFactor = 0; turn = true;}
 
 	frontLeftMotor->Set(ControlMode::Follower, 1);
 	rearLeftMotor->Set(ControlMode::Velocity, -velocity*velocityFactor);
 	frontRightMotor->Set(ControlMode::Follower, 3);
 	rearRightMotor->Set(ControlMode::Velocity, velocity*velocityFactor);
 
+	frc::SmartDashboard::PutNumber("First Acceleration", targetHeading-error);
 	frc::SmartDashboard::PutNumber("error", error);
 	frc::SmartDashboard::PutNumber("Current Heading", currentHeading);
 	frc::SmartDashboard::PutNumber("Velocity", velocityFactor);
 	frc::SmartDashboard::PutNumber("target", angle);
 	frc::SmartDashboard::PutBoolean("Gyro Flag", turn);
+	frc::SmartDashboard::PutNumber("gyro value", ypr[0]);
 }
 
 void DriveSystem::GetGyroValues()

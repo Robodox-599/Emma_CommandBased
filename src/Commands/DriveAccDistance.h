@@ -9,13 +9,17 @@
 
 #include <Commands/Command.h>
 
-class GyroTurn : public frc::Command {
+class DriveAccDistance : public frc::Command {
 public:
-	GyroTurn();
+	DriveAccDistance(float feet, float inches, double acceleration);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+private:
+	float setFeet;
+	float setInches;
+	double setAcceleration;
 };
 

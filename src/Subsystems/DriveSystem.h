@@ -32,6 +32,8 @@ private:
 	double gyroTarget;
 	bool autoFlag;
 	bool teleopFlag;
+	double targetHeading;
+	double velocity;
 public:
 	DriveSystem();
 	void InitDefaultCommand() override;
@@ -39,18 +41,21 @@ public:
 	void ShiftUp();
 	void ShiftDown();
 	void JoystickVelocityDrive(double x, double y);
+
 	void DriveDistance(float feet, float inches);
 	void DriveVelDistance(float feet, float inches, double maxVel, double time);
+	void DriveAccDistance(float feet, float inches, double acceleration);
 	double FeetToTicks(float feet);
 	double InchesToTicks(float inches);
 	double LeftEncoderValue();
 	double RightEncoderValue();
+
 	void GetYaw();
 	bool GetShift();
 	void GyroTurn(double angle);
 	void ResetGyroFlag();
 	bool GetGyroFlag();
-	double SetGyroTarget(double target);
+	void SetGyroTarget(double target);
 	double ReturnGyroTarget();
 	void GetGyroValues();
 	void ResetDriveFlag();
